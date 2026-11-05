@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 20
     defaults:
       run:
-        working-directory: packages/module
+        working-directory: crates/vectors-core
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
@@ -37,8 +37,8 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            packages/module/target
-          key: ${{ runner.os }}-cargo-module-${{ hashFiles('packages/module/Cargo.lock') }}
+            crates/target
+          key: ${{ runner.os }}-cargo-module-${{ hashFiles('crates/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-module-
 
       - name: Check Formatting
@@ -65,7 +65,7 @@ jobs:
     timeout-minutes: 30
     defaults:
       run:
-        working-directory: packages/cli
+        working-directory: crates/vectors-cli
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
@@ -81,8 +81,8 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            packages/cli/target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('packages/cli/Cargo.lock') }}
+            crates/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('crates/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
       - name: Check Formatting
@@ -102,8 +102,8 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: hector
-          path: packages/cli/target/release/hector
+          name: vectors
+          path: crates/target/release/vectors
           if-no-files-found: error
 
   web-build:
@@ -226,7 +226,7 @@ jobs:
       - name: Download CLI artifact
         uses: actions/download-artifact@v8.0.2
         with:
-          name: hector
+          name: vectors
           path: artifacts
 
       - name: Download all Tauri bundles
@@ -238,8 +238,8 @@ jobs:
 
       - name: Publish Release
         run: |
-          RELEASE_NAME="hector-latest"
-          RELEASE_TITLE="hector (latest)"
+          RELEASE_NAME="vectors-latest"
+          RELEASE_TITLE="vectors (latest)"
           NOTES_FILE="README.md"
           RELEASE_NOTES="release-notes.md"
           {
@@ -255,7 +255,7 @@ jobs:
           gh release create "$RELEASE_NAME" \
             --title "$RELEASE_TITLE" \
             --notes-file "$RELEASE_NOTES" \
-            artifacts/hector
+            artifacts/vectors
           find bundles -type f \( -name '*.AppImage' -o -name '*.deb' -o -name '*.rpm' -o -name '*.dmg' -o -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -exec gh release upload "$RELEASE_NAME" {} --clobber \;
         env:
           GH_TOKEN: ${{ github.token }}

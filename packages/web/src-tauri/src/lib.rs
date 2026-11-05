@@ -13,10 +13,10 @@ fn convert_png_to_svg(png_data_url: String) -> Result<String, String> {
     let bytes = general_purpose::STANDARD
         .decode(data)
         .map_err(|e| e.to_string())?;
-    let raster = hector::Raster::from_bytes(&bytes, "upload.png").map_err(|e| e.to_string())?;
-    let config = hector::TraceConfig::default();
-    let (vector, _stats) = hector::trace(&raster, &config).map_err(|e| e.to_string())?;
-    let svg = hector::to_svg(&vector, &hector::SvgOptions::default());
+    let raster = vectors::Raster::from_bytes(&bytes, "upload.png").map_err(|e| e.to_string())?;
+    let config = vectors::TraceConfig::default();
+    let (vector, _stats) = vectors::trace(&raster, &config).map_err(|e| e.to_string())?;
+    let svg = vectors::to_svg(&vector, &vectors::SvgOptions::default());
     Ok(svg)
 }
 

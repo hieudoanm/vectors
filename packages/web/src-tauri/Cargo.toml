@@ -23,6 +23,6 @@ serde = { version = "=1.0.229", features = ["derive"] }
 log = "=0.4.35"
 tauri = { version = "=2.12.5", features = [] }
 tauri-plugin-dialog = "=2.8.4"
-hector = { path = "../../module" }
+vectors = { path = "../../../crates/vectors-core" }
 base64 = "=0.23.1"
 

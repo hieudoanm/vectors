@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hector.hieudoan.dev/sitemap.xml
+Sitemap: https://vectors.hieudoan.dev/sitemap.xml

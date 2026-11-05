@@ -1,6 +1,6 @@
 # Roadmap
 
-Vectify is a **classical** raster-to-vector tracer first. Everything on the ML
+Vectors is a **classical** raster-to-vector tracer first. Everything on the ML
 side is a later replacement for one stage of an existing, measured baseline —
 not the starting point.
 
@@ -24,7 +24,7 @@ tested:
 | Holes               | done   | Outer contour plus holes per path              |
 | Debug visualisation | done   | `--debug-dir`, four artefacts                  |
 | CLI                 | done   | clap.rs, subcommands, completions              |
-| HTTP server         | done   | axum; `/health`, `/info`, `/vectify`           |
+| HTTP server         | done   | axum; `/health`, `/info`, `/vectors`          |
 | Container           | done   | multi-stage `Dockerfile`, self-hosting `serve` |
 
 ## Next

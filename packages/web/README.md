@@ -1,6 +1,6 @@
 # Next.js
 
-![Hector Logo](../../docs/07-ui-ux-design/brand/images/og.png)
+![Vectors Logo](../../docs/07-ui-ux-design/brand/images/og.png)
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with
 [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).

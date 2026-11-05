@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Hector',
-  description: 'Hector',
+  title: 'Vectors',
+  description: 'Vectors',
   manifest: '/manifest.json',
 };
 

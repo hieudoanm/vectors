@@ -1,6 +1,6 @@
 # Architecture
 
-Vectify turns a raster image into SVG through one linear pipeline. Each stage
+Vectors turns a raster image into SVG through one linear pipeline. Each stage
 consumes the previous stage's data type and produces a different abstraction.
 
 ```text
@@ -111,7 +111,7 @@ on winding direction. Coordinates are rounded to `--precision` decimals.
 
 ### 9. Serve (`server/`, `cli/`)
 
-`vectify serve` wraps stage 1-8 in an axum router. It is a thin shell: each
+`vectors serve` wraps stage 1-8 in an axum router. It is a thin shell: each
 handler decodes an upload, applies per-request overrides, calls `trace`, and
 serialises the result. No tracing logic lives here, so the HTTP surface cannot
 diverge from the CLI.

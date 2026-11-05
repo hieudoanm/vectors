@@ -7,9 +7,9 @@
   role="img"
   aria-labelledby="title desc"
 >
-  <title id="title">HECTOR — Precise PNG to SVG</title>
+  <title id="title">VECTORS — Precise PNG to SVG</title>
   <desc id="desc">
-    HECTOR. Precise PNG to SVG. From Pixels to Vectors.
+    VECTORS. Precise PNG to SVG. From Pixels to Vectors.
   </desc>
 
   <defs>
@@ -171,7 +171,7 @@
       font-size="76"
       font-weight="700"
       letter-spacing="-2"
-    >HECTOR</text>
+    >VECTORS</text>
 
     <rect x="624" y="297" width="64" height="5" rx="2.5"/>
 

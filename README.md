@@ -1,14 +1,14 @@
-# hector
+# vectors
 
-![Hector Logo](docs/07-ui-ux-design/brand/images/og.png)
+![Vectors Logo](docs/07-ui-ux-design/brand/images/og.png)
 
 **Turn PNG and JPEG images into clean SVG paths — and rasterize SVG back to PNG at any size — entirely offline.**
 
-hector is a classical raster-to-vector tracer written from scratch in Rust. It quantizes an image into a palette, segments pixels into regions, walks their boundaries, simplifies the result, fits Bézier curves, and emits SVG. No machine-learning models, no network calls, no service dependency — and the same input always produces byte-identical output.
+vectors is a classical raster-to-vector tracer written from scratch in Rust. It quantizes an image into a palette, segments pixels into regions, walks their boundaries, simplifies the result, fits Bézier curves, and emits SVG. No machine-learning models, no network calls, no service dependency — and the same input always produces byte-identical output.
 
 The tracer ships as a CLI, an HTTP API, an MCP server, a Rust library (intended for WebAssembly), and a Tauri desktop app.
 
-[🚀 Quick Start](#get-started) · [🔍 How It Works](#how-it-works) · [🧰 CLI](#cli) · [📦 Packages](#packages) · [🗺 Roadmap](docs/ROADMAP.md)
+[🚀 Quick Start](#get-started) · [🔍 How It Works](#how-it-works) · [🧰 CLI](#cli) · [📦 Crates and Packages](#crates-and-packages) · [🗺 Roadmap](docs/ROADMAP.md)
 
 ## The Problem
 
@@ -21,11 +21,11 @@ Turning a raster logo back into usable vector paths is usually either an online 
 - Work offline as a single binary, a library, and a server, from the same code.
 - Go the other way too: render an SVG to a sized PNG for icons and previews.
 
-hector is built around those constraints.
+vectors is built around those constraints.
 
 ## The Solution
 
-hector runs one linear pipeline — raster → preprocess → segment → contour → simplify → Bézier → vector model → SVG — where each stage consumes the previous stage's type and knows nothing about how the next one is rendered. The tracer is deterministic by construction (no RNG, no hash-order dependence), and is measured by rasterizing its own SVG output with an independent renderer rather than by eyeballing the paths.
+vectors runs one linear pipeline — raster → preprocess → segment → contour → simplify → Bézier → vector model → SVG — where each stage consumes the previous stage's type and knows nothing about how the next one is rendered. The tracer is deterministic by construction (no RNG, no hash-order dependence), and is measured by rasterizing its own SVG output with an independent renderer rather than by eyeballing the paths.
 
 The inverse direction, SVG → PNG, parses the document with `resvg`, draws it straight into a straight-alpha buffer, and encodes it with `image`. Width and height are explicit flags, so the same binary can produce a 512 px icon or a 4096 px comparison raster.
 
@@ -43,8 +43,8 @@ The inverse direction, SVG → PNG, parses the document with `resvg`, draws it s
 ### Surfaces
 
 - **CLI** — one command for a single file; omit the output path to stream SVG to stdout.
-- **HTTP API** — `hector serve` exposes `/health`, `/info`, and `POST /vectify` (multipart or URL-safe base64), with per-request overrides.
-- **MCP server** — `hector mcp serve` speaks newline-delimited JSON-RPC on stdio and advertises a `vectify_trace` tool for agent clients.
+- **HTTP API** — `vectors serve` exposes `/health`, `/info`, and `POST /vectors` (multipart or URL-safe base64), with per-request overrides.
+- **MCP server** — `vectors mcp serve` speaks newline-delimited JSON-RPC on stdio and advertises a `vectors_trace` tool for agent clients.
 - **Library** — `trace`, `to_svg`, `Raster`, `TraceConfig`, and `SvgOptions`; `VectorImage` is SVG-independent so another serializer is additive.
 - **Desktop / web app** — a Next.js UI packaged with Tauri; the desktop build calls the Rust tracer directly.
 
@@ -79,29 +79,29 @@ The inverse direction, SVG → PNG, parses the document with `resvg`, draws it s
 ### Build the CLI
 
 ```sh
-git clone https://github.com/hieudoanm/hector.git
-cd hector/packages/cli
+git clone https://github.com/hieudoanm/vectors.git
+cd vectors/crates/vectors-cli
 cargo build --release
-./target/release/hector --help
+../target/release/vectors --help
 ```
 
-The release binary lands at `packages/cli/target/release/hector`. A prebuilt `hector`
-binary is also attached to the rolling [`hector-latest`](https://github.com/hieudoanm/hector/releases/tag/hector-latest)
-release; `packages/cli/scripts/install.sh` downloads it.
+The release binary lands at `crates/target/release/vectors` (the workspace target). A prebuilt `vectors`
+binary is also attached to the rolling [`vectors-latest`](https://github.com/hieudoanm/vectors/releases/tag/vectors-latest)
+release; `crates/vectors-cli/scripts/install.sh` downloads it.
 
 ### Convert your first image
 
 ```sh
-hector logo.png logo.svg
-hector logo.png | pango-view -          # SVG to stdout
-hector logo.svg logo.png --width 512    # back to a sized PNG
+vectors logo.png logo.svg
+vectors logo.png | pango-view -          # SVG to stdout
+vectors logo.svg logo.png --width 512    # back to a sized PNG
 ```
 
 ### Build everything
 
 ```sh
 pnpm install
-pnpm build        # turbo: module, CLI, and web
+pnpm build        # turbo: Rust crates and web
 pnpm lint
 pnpm test
 pnpm format
@@ -110,8 +110,8 @@ pnpm format
 ## CLI
 
 ```text
-hector [OPTIONS] [INPUT] [OUTPUT]
-       hector [OPTIONS] [INPUT] [OUTPUT] <COMMAND>
+vectors [OPTIONS] [INPUT] [OUTPUT]
+       vectors [OPTIONS] [INPUT] [OUTPUT] <COMMAND>
 ```
 
 The output extension decides the format: PNG/JPEG input traces to `.svg`, while a
@@ -141,14 +141,14 @@ Subcommands: `info` (palette without tracing), `serve` (HTTP), `mcp serve`
 ### Examples
 
 ```sh
-hector icon.png icon.svg --colors 4
-hector photo.jpg out.svg --colors 1 --threshold 140
-hector logo.png logo.svg --detail bold --debug-dir ./trace
-hector logo.png logo.png --width 1024
-hector logo.svg logo.png --width 512 --height 512 --background '#ffffff'
-hector info logo.png
-hector serve --bind 0.0.0.0:8080
-hector mcp serve
+vectors icon.png icon.svg --colors 4
+vectors photo.jpg out.svg --colors 1 --threshold 140
+vectors logo.png logo.svg --detail bold --debug-dir ./trace
+vectors logo.png logo.png --width 1024
+vectors logo.svg logo.png --width 512 --height 512 --background '#ffffff'
+vectors info logo.png
+vectors serve --bind 0.0.0.0:8080
+vectors mcp serve
 ```
 
 ## How It Works
@@ -183,7 +183,7 @@ harness is feature-gated so the default binary never links a full SVG
 rasterizer:
 
 ```sh
-cd packages/cli
+cd crates/vectors-cli
 
 cargo run --release --features eval -- eval logo.png
 cargo run --release --features eval -- eval tests/golden/images
@@ -203,16 +203,18 @@ Explore a parameter instead of guessing at one:
 cargo run --release --features eval -- sweep tests/golden/images colors 2 4 8 16
 ```
 
-## Packages
+## Crates and Packages
 
-| Path              | What it is                                                                                                                                         |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `packages/module` | Core Rust library: pipeline, SVG serializer, SVG → PNG renderer. Builds for `wasm32-unknown-unknown`.                                              |
-| `packages/cli`    | The `hector` binary and its surfaces: clap parsing, flag mapping, file I/O, HTTP server, MCP server, debug artefacts, and the measurement harness. |
-| `packages/web`    | Next.js UI with a Tauri v2 desktop shell; the desktop build calls the Rust tracer (the static web build is a UI preview).                          |
-| `docs/`           | Architecture, roadmap, packaging, and design notes.                                                                                                |
+| Path                 | What it is                                                                                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `crates/vectors-core`      | Core Rust library: pipeline, SVG serializer, SVG → PNG renderer. Builds for `wasm32-unknown-unknown`.                                              |
+| `crates/vectors-cli`  | The `vectors` binary and its surfaces: clap parsing, flag mapping, file I/O, HTTP server, MCP server, debug artefacts, and the measurement harness. |
+| `packages/web`       | Next.js UI with a Tauri v2 desktop shell; the desktop build calls the Rust tracer (the static web build is a UI preview).                          |
+| `docs/`              | Architecture, roadmap, packaging, and design notes.                                                                                                |
 
-Each package has its own README and `AGENTS.md` with build and contribution notes.
+The Rust crates share a Cargo workspace rooted at `crates/`; run `cargo` commands
+from `crates/` to build or test the whole workspace. Each crate and package has
+its own README and `AGENTS.md` with build and contribution notes.
 
 ## Use Cases
 
@@ -235,22 +237,23 @@ Each package has its own README and `AGENTS.md` with build and contribution note
 - **Maturity:** working tracer with a complete pipeline, CLI, HTTP API, MCP server, SVG → PNG rendering, and a Tauri desktop build. It is a software demonstration, not a safety-critical production service.
 - **Tested:** unit tests in each stage plus integration suites for the public API, HTTP routes, debug artifacts, rendering, and the measurement workflow. CI runs `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, `cargo test --locked`, and a release build; the web package runs ESLint and a Next.js build, and Tauri bundles are produced for Linux, macOS, and Windows.
 - **Tech stack:** Rust 1.88 (2021 edition), `image`, `resvg` (feature-gated), `clap`, `axum`, `tokio`, `tower-http`, `serde`; Next.js 16, React 19, Tailwind CSS 4, and Tauri 2 for the app.
-- **Documentation:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md) are current. The numbered `docs/00`–`12` set is inherited from an earlier project and is **stale** — do not treat it as a specification for hector.
+- **Documentation:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md) are current. The numbered `docs/00`–`12` set is inherited from an earlier project and is **stale** — do not treat it as a specification for vectors.
 - **License:** [MIT](LICENSE).
 
 ## Community and Contributions
 
 Contributions, bug reports, and feature suggestions are welcome.
 
-- [README for the module](packages/module/README.md) — library API and feature flags
-- [README for the CLI](packages/cli/README.md) — flags, server, MCP, and the measurement harness
+- [README for the module](crates/vectors-core/README.md) — library API and feature flags
+- [README for the CLI](crates/vectors-cli/README.md) — flags, server, MCP, and the measurement harness
 - [README for the web app](packages/web/README.md) — Next.js and Tauri development
 - [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md)
 
-Before opening a pull request, run the package's `make lint`, `make test`, and
-`make format` (or the equivalent `cargo` commands). In `packages/module` both the
+Before opening a pull request, run the crate's or package's `make lint`,
+`make test`, and `make format` (or the equivalent `cargo` commands). In
+`crates/vectors-core` both the
 default and `--features raster` builds must stay green, and `cargo build
---target wasm32-unknown-unknown` must keep working. In `packages/cli` both the
+--target wasm32-unknown-unknown` must keep working. In `crates/vectors-cli` both the
 default and `--features eval` test suites must stay green.
 
 ## Call to Action

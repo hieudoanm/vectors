@@ -1,6 +1,9 @@
 packages:
   - 'packages/**'
-  - '!packages/module/pkg'
+  - '!packages/web/out/**'
+  - '!packages/web/.next/**'
+  - 'crates/vectors-core'
+  - 'crates/vectors-cli'
 
 minimumReleaseAge: 0
 

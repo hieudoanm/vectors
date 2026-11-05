@@ -173,9 +173,9 @@ importers:
         specifier: 2.11.10
         version: 2.11.10
 
-  packages/cli: {}
+  crates/vectors-core: {}
 
-  packages/module: {}
+  crates/vectors-cli: {}
 
   packages/web:
     dependencies:

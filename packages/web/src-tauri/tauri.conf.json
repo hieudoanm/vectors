@@ -1,18 +1,18 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "hector",
+  "productName": "vectors",
   "version": "0.0.1",
-  "identifier": "io.github.hieudoan.hector",
+  "identifier": "io.github.hieudoan.vectors",
   "build": {
     "frontendDist": "../out",
     "devUrl": "http://localhost:3000",
-    "beforeDevCommand": "pnpm --filter @hector/web dev",
-    "beforeBuildCommand": "pnpm --filter @hector/web build"
+    "beforeDevCommand": "pnpm --filter @vectors/web dev",
+    "beforeBuildCommand": "pnpm --filter @vectors/web build"
   },
   "app": {
     "windows": [
       {
-        "title": "hector",
+        "title": "vectors",
         "width": 800,
         "height": 600,
         "resizable": true,

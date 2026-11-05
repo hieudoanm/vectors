@@ -1,9 +1,9 @@
 {
-  "name": "@hector/workspace",
+  "name": "@vectors/workspace",
   "version": "0.0.1",
-  "description": "Hector - Workspace",
+  "description": "Vectors - Workspace",
   "keywords": [
-    "hector",
+    "vectors",
     "svg"
   ],
   "author": {
