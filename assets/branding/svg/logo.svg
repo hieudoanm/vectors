@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#ffffff" />
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M16 0H0V16" fill="none" stroke="#e5e7eb" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="512" height="512" fill="url(#grid)" />
+  <g fill="none" stroke="#111827" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 432 C176 72 336 72 432 208" fill="none" />
+    <line x1="80" y1="432" x2="176" y2="72" />
+    <line x1="432" y1="208" x2="336" y2="72" />
+    <rect x="72" y="424" width="16" height="16" />
+    <rect x="424" y="200" width="16" height="16" />
+  </g>
+</svg>
