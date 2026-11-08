@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { FC } from 'react';
 
 export interface ResultViewProps {
@@ -35,11 +36,14 @@ export const ResultView: FC<ResultViewProps> = ({
             {fmt(originalSize)}
           </span>
         </figcaption>
-        <div className="checker flex aspect-square items-center justify-center overflow-hidden rounded-lg">
-          <img
+        <div className="checker relative flex aspect-square items-center justify-center overflow-hidden rounded-lg">
+          <Image
             src={dataUrl}
             alt="Original PNG"
-            className="max-h-full max-w-full object-contain"
+            fill
+            unoptimized
+            sizes="(min-width: 640px) 50vw, 100vw"
+            className="object-contain"
           />
         </div>
       </figure>
@@ -50,11 +54,14 @@ export const ResultView: FC<ResultViewProps> = ({
             {fmt(svgSize)}
           </span>
         </figcaption>
-        <div className="checker flex aspect-square items-center justify-center overflow-hidden rounded-lg">
-          <img
+        <div className="checker relative flex aspect-square items-center justify-center overflow-hidden rounded-lg">
+          <Image
             src={blobUrl}
             alt="Converted SVG"
-            className="max-h-full max-w-full object-contain"
+            fill
+            unoptimized
+            sizes="(min-width: 640px) 50vw, 100vw"
+            className="object-contain"
           />
         </div>
       </figure>

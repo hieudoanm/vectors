@@ -17,7 +17,12 @@ pub enum Detail {
 #[derive(Debug, Parser)]
 #[command(
     name = "vectors",
-    version,
+    version = concat!(
+        env!("CARGO_PKG_VERSION"),
+        " (build ",
+        env!("BUILD_TIMESTAMP"),
+        ")"
+    ),
     about = "Convert raster images (PNG, JPG) into SVG vector paths",
     long_about = None,
     subcommand_negates_reqs = true,

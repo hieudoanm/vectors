@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { FC } from 'react';
 
 export interface FilePreviewProps {
@@ -34,11 +35,14 @@ export const FilePreview: FC<FilePreviewProps> = ({
 }) => (
   <section className="rounded-2xl border border-slate-200 bg-white p-5">
     <div className="flex items-center gap-4">
-      <div className="checker h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-slate-200">
-        <img
+      <div className="checker relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-slate-200">
+        <Image
           src={dataUrl}
           alt="Selected PNG preview"
-          className="h-full w-full object-contain"
+          fill
+          unoptimized
+          sizes="80px"
+          className="object-contain"
         />
       </div>
       <div className="min-w-0 flex-1">

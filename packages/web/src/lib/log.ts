@@ -7,8 +7,6 @@ const COLORS = {
   gray: '\x1b[90m',
 } as const;
 
-type LogLevel = keyof typeof COLORS | 'reset' | 'gray';
-
 const getTimestamp = (): string => {
   const now = new Date();
   return now.toISOString();
