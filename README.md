@@ -6,7 +6,7 @@
 
 vectors is a classical raster-to-vector tracer written from scratch in Rust. It quantizes an image into a palette, segments pixels into regions, walks their boundaries, simplifies the result, fits Bézier curves, and emits SVG. No machine-learning models, no network calls, no service dependency — and the same input always produces byte-identical output.
 
-The tracer ships as a CLI, an HTTP API, an MCP server, a Rust library (intended for WebAssembly), and a Tauri desktop app.
+The tracer ships as a CLI, an HTTP API, an MCP server, a Rust library (compiled to WebAssembly for the web app), and a Next.js landing page with an in-browser converter.
 
 [🚀 Quick Start](#get-started) · [🔍 How It Works](#how-it-works) · [🧰 CLI](#cli) · [📦 Crates and Packages](#crates-and-packages) · [🗺 Roadmap](docs/ROADMAP.md)
 
@@ -46,7 +46,7 @@ The inverse direction, SVG → PNG, parses the document with `resvg`, draws it s
 - **HTTP API** — `vectors serve` exposes `/health`, `/info`, and `POST /vectors` (multipart or URL-safe base64), with per-request overrides.
 - **MCP server** — `vectors mcp serve` speaks newline-delimited JSON-RPC on stdio and advertises a `vectors_trace` tool for agent clients.
 - **Library** — `trace`, `to_svg`, `Raster`, `TraceConfig`, and `SvgOptions`; `VectorImage` is SVG-independent so another serializer is additive.
-- **Desktop / web app** — a Next.js UI packaged with Tauri; the desktop build calls the Rust tracer directly.
+- **Web app** — a Next.js landing page with an in-browser converter that runs the same tracer compiled to WebAssembly; conversion happens entirely client-side.
 
 ### SVG → PNG
 
@@ -74,7 +74,7 @@ The inverse direction, SVG → PNG, parses the document with `resvg`, draws it s
 ### Prerequisites
 
 - [Rust](https://rustup.rs/) 1.88 or newer (for the CLI and library).
-- [Node.js](https://nodejs.org/) 26.12.1 and [pnpm](https://pnpm.io/) 12.15.0 (only for the web/desktop app and workspace scripts).
+- [Node.js](https://nodejs.org/) 26.12.1 and [pnpm](https://pnpm.io/) 12.15.0 (only for the landing page and workspace scripts).
 
 ### Build the CLI
 
@@ -209,7 +209,7 @@ cargo run --release --features eval -- sweep tests/golden/images colors 2 4 8 16
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `crates/vectors-core`      | Core Rust library: pipeline, SVG serializer, SVG → PNG renderer. Builds for `wasm32-unknown-unknown`.                                              |
 | `crates/vectors-cli`  | The `vectors` binary and its surfaces: clap parsing, flag mapping, file I/O, HTTP server, MCP server, debug artefacts, and the measurement harness. |
-| `packages/web`       | Next.js UI with a Tauri v2 desktop shell; the desktop build calls the Rust tracer (the static web build is a UI preview).                          |
+| `packages/landing`    | Next.js landing page + in-browser converter (tracer via `@vectors/core` wasm); static export deployed to GitHub Pages.                            |
 | `docs/`              | Architecture, roadmap, packaging, and design notes.                                                                                                |
 
 The Rust crates share a Cargo workspace rooted at `crates/`; run `cargo` commands
@@ -234,9 +234,9 @@ its own README and `AGENTS.md` with build and contribution notes.
 
 ## Project Status and Trust
 
-- **Maturity:** working tracer with a complete pipeline, CLI, HTTP API, MCP server, SVG → PNG rendering, and a Tauri desktop build. It is a software demonstration, not a safety-critical production service.
-- **Tested:** unit tests in each stage plus integration suites for the public API, HTTP routes, debug artifacts, rendering, and the measurement workflow. CI runs `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, `cargo test --locked`, and a release build; the web package runs ESLint and a Next.js build, and Tauri bundles are produced for Linux, macOS, and Windows.
-- **Tech stack:** Rust 1.88 (2021 edition), `image`, `resvg` (feature-gated), `clap`, `axum`, `tokio`, `tower-http`, `serde`; Next.js 16, React 19, Tailwind CSS 4, and Tauri 2 for the app.
+- **Maturity:** working tracer with a complete pipeline, CLI, HTTP API, MCP server, SVG → PNG rendering, and a WebAssembly build for the web app. It is a software demonstration, not a safety-critical production service.
+- **Tested:** unit tests in each stage plus integration suites for the public API, HTTP routes, debug artifacts, rendering, and the measurement workflow. CI runs `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, `cargo test --locked`, and a release build; the landing package runs ESLint and a Next.js static build deployed to GitHub Pages.
+- **Tech stack:** Rust 1.88 (2021 edition), `image`, `resvg` (feature-gated), `clap`, `axum`, `tokio`, `tower-http`, `serde`; Next.js 16, React 19, and Tailwind CSS 4 for the landing page.
 - **Documentation:** [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and [`docs/ROADMAP.md`](docs/ROADMAP.md) are current. The numbered `docs/00`–`12` set is inherited from an earlier project and is **stale** — do not treat it as a specification for vectors.
 - **License:** [MIT](LICENSE).
 
@@ -246,7 +246,7 @@ Contributions, bug reports, and feature suggestions are welcome.
 
 - [README for the module](crates/vectors-core/README.md) — library API and feature flags
 - [README for the CLI](crates/vectors-cli/README.md) — flags, server, MCP, and the measurement harness
-- [README for the web app](packages/web/README.md) — Next.js and Tauri development
+- [README for the landing page](packages/landing/README.md) — Next.js development
 - [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md)
 
 Before opening a pull request, run the crate's or package's `make lint`,
