@@ -66,7 +66,7 @@ export const FilePreview: FC<FilePreviewProps> = ({
         </div>
         <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
           <div
-            className="h-full rounded-full bg-indigo-500 transition-all duration-150"
+            className="h-full rounded-full bg-blue-500 transition-all duration-150"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -75,7 +75,7 @@ export const FilePreview: FC<FilePreviewProps> = ({
     <button
       onClick={onConvert}
       disabled={converting}
-      className="mt-5 w-full rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white shadow hover:bg-indigo-500 focus:ring-4 focus:ring-indigo-300/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60">
+      className="mt-5 w-full rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white shadow hover:bg-blue-500 focus:ring-4 focus:ring-blue-300/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60">
       {converting ? 'Converting…' : hasSvg ? 'Convert again' : 'Convert to SVG'}
     </button>
   </section>

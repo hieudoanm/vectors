@@ -1,7 +1,7 @@
 packages:
   - 'packages/**'
-  - '!packages/web/out/**'
-  - '!packages/web/.next/**'
+  - '!packages/landing/out/**'
+  - '!packages/landing/.next/**'
   - 'crates/vectors-core'
   - 'crates/vectors-cli'
 

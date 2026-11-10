@@ -7,7 +7,7 @@ import { Dropzone } from '@/components/Dropzone';
 import { FilePreview } from '@/components/FilePreview';
 import { ResultView } from '@/components/ResultView';
 
-const Home: FC = () => {
+export const Converter: FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [dataUrl, setDataUrl] = useState('');
   const [dims, setDims] = useState({ w: 0, h: 0 });
@@ -87,23 +87,11 @@ const Home: FC = () => {
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10 sm:py-16">
-      <header className="mb-8 text-center">
-        <div className="inline-flex items-center gap-2 rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700">
-          PNG → SVG
-        </div>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-          Vectors
-        </h1>
-        <p className="mt-2 text-slate-600">
-          Drop a PNG file below and turn it into a scalable vector graphic.
-        </p>
-      </header>
-
+    <div className="mx-auto w-full max-w-3xl">
       {error && (
         <p
           role="alert"
-          className="mb-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+          className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
           {error}
         </p>
       )}
@@ -152,21 +140,6 @@ const Home: FC = () => {
           onReset={reset}
         />
       )}
-
-      <p className="mt-10 text-center text-xs text-slate-400">
-        The conversion runs entirely in your browser; no files are uploaded.
-      </p>
-      <p className="mt-2 text-center text-xs text-slate-400">
-        <a
-          href="https://github.com/hieudoanm/vectors/releases/download/latest/vectors"
-          className="text-indigo-600 hover:underline"
-          target="_blank"
-          rel="noopener noreferrer">
-          Download vectors
-        </a>
-      </p>
-    </main>
+    </div>
   );
 };
-
-export default Home;
