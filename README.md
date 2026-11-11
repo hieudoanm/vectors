@@ -1,5 +1,8 @@
 # vectors
 
+[![CI](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+
 ![Vectors Logo](docs/07-ui-ux-design/brand/images/og.png)
 
 **Turn PNG and JPEG images into clean SVG paths — and rasterize SVG back to PNG at any size — entirely offline.**
