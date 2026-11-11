@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import type { FC, ReactNode } from 'react';
 import './globals.css';
 
-const SITE_URL = 'https://vectors.hieudoan.dev';
+const SITE_URL = 'https://hieudoan.github.io/vectors';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   },
 };
 
-const RootLayout = ({ children }: LayoutProps<'/'>) => {
+const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col">{children}</body>
