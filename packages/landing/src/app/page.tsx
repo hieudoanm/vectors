@@ -16,6 +16,7 @@ import {
   LuSpline,
 } from 'react-icons/lu';
 import { Converter } from '@/components/Converter';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -494,21 +495,7 @@ const Home: FC = () => (
       </section>
     </main>
 
-    <footer className="border-t border-slate-200 py-10 text-sm text-slate-500">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-8 gap-y-4 px-5">
-        <span>vectors — raster to vector, offline</span>
-        <span className="ml-auto">
-          Rust · WebAssembly · MIT ·{' '}
-          <a
-            href={GITHUB}
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-600 no-underline hover:underline">
-            github.com/hieudoanm/vectors
-          </a>
-        </span>
-      </div>
-    </footer>
+    <Footer />
   </>
 );
 
