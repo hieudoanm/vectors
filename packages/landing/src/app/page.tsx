@@ -4,10 +4,9 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import { LuCpu, LuPuzzle } from 'react-icons/lu';
 import { Converter } from '@/components/Converter';
-import Footer from '@/components/Footer';
-import Features, { type Feature } from '@/components/Features';
-import Hero from '@/components/Hero';
-import CTA from '@/components/CTA';
+import Features, { type Feature } from '@/components/molecules/Features';
+import Hero from '@/components/molecules/Hero';
+import CTA from '@/components/molecules/CTA';
 import {
   LuFileImage,
   LuGitBranch,
@@ -128,46 +127,6 @@ const FEATURES: Feature[] = [
 
 const Home: FC = () => (
   <>
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-5">
-        <Link
-          href="#top"
-          className="flex items-center gap-2 text-lg font-bold text-slate-900 no-underline">
-          <Image src={LOGO} alt="" width={28} height={28} />
-          <span>vectors</span>
-        </Link>
-        <nav className="ml-auto hidden items-center gap-5 lg:flex">
-          <Link
-            href="#try"
-            className="text-sm text-slate-600 no-underline hover:text-slate-900">
-            Try it
-          </Link>
-          <Link
-            href="#features"
-            className="text-sm text-slate-600 no-underline hover:text-slate-900">
-            Features
-          </Link>
-          <Link
-            href="#how"
-            className="text-sm text-slate-600 no-underline hover:text-slate-900">
-            How it works
-          </Link>
-          <Link
-            href="#install"
-            className="text-sm text-slate-600 no-underline hover:text-slate-900">
-            Install
-          </Link>
-        </nav>
-        <a
-          href={GITHUB}
-          target="_blank"
-          rel="noreferrer"
-          className="btn btn-primary btn-sm">
-          GitHub
-        </a>
-      </div>
-    </header>
-
     <main id="top">
       {/* hero */}
       <Hero
@@ -417,8 +376,6 @@ const Home: FC = () => (
         secondary={{ label: 'Star on GitHub', href: GITHUB, external: true }}
       />
     </main>
-
-    <Footer />
   </>
 );
 
