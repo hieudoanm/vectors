@@ -2,21 +2,11 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { FC } from 'react';
-import type { IconType } from 'react-icons';
-import {
-  LuCpu,
-  LuFileImage,
-  LuGitBranch,
-  LuLayers,
-  LuPalette,
-  LuPuzzle,
-  LuRepeat,
-  LuServer,
-  LuShieldCheck,
-  LuSpline,
-} from 'react-icons/lu';
+import { LuCpu, LuPuzzle } from 'react-icons/lu';
 import { Converter } from '@/components/Converter';
 import Footer from '@/components/Footer';
+import Features from '@/components/Features';
+import CTA from '@/components/CTA';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -27,49 +17,6 @@ const RELEASES = `${GITHUB}/releases`;
 // next/image with unoptimized does not apply basePath — mirror next.config.ts.
 const LOGO =
   process.env.NODE_ENV === 'production' ? '/vectors/logo.svg' : '/logo.svg';
-
-const FEATURES: { title: string; body: string; icon: IconType }[] = [
-  {
-    title: 'Palette & binary modes',
-    body: 'Median-cut colour quantization (default 8 colours) or a single luminance threshold for black-and-white output.',
-    icon: LuPalette,
-  },
-  {
-    title: 'Real holes, not hacks',
-    body: '8-connected segmentation walks each region’s boundary and emits outer contours plus holes with fill-rule="evenodd".',
-    icon: LuGitBranch,
-  },
-  {
-    title: 'Bézier-fitted curves',
-    body: 'Douglas–Peucker simplification followed by least-squares curve fitting — editable paths, not a bitmap in a trench coat.',
-    icon: LuSpline,
-  },
-  {
-    title: 'Deterministic output',
-    body: 'No RNG, no hash-order dependence. Identical input produces byte-identical SVG, so baselines and diffs stay meaningful.',
-    icon: LuRepeat,
-  },
-  {
-    title: 'CLI, API, MCP & library',
-    body: 'One pipeline, many surfaces: vectors trace, vectors serve, vectors mcp serve, or the Rust crate compiled to WebAssembly.',
-    icon: LuServer,
-  },
-  {
-    title: 'SVG → PNG too',
-    body: 'The inverse direction renders SVG back to a sized PNG — exact grid or proportional — with resvg behind the raster feature.',
-    icon: LuFileImage,
-  },
-  {
-    title: 'Measured, not vibes',
-    body: 'An optional eval harness rasterizes the emitted SVG and scores MAE, PSNR, SSIM and edge agreement against committed baselines.',
-    icon: LuLayers,
-  },
-  {
-    title: 'Offline & private',
-    body: 'A static binary with no network calls. The web converter runs the same tracer in your browser — files never leave the machine.',
-    icon: LuShieldCheck,
-  },
-];
 
 const PIPELINE = [
   'raster',
@@ -277,35 +224,7 @@ const Home: FC = () => (
       </section>
 
       {/* features */}
-      <section id="features" className="py-20">
-        <div className="mx-auto w-full max-w-6xl px-5">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-              A real tracer, not a wrapper.
-            </h2>
-            <p className="mt-3 text-[1.0625rem] text-slate-600">
-              Every stage — quantize, segment, contour, simplify, fit — is
-              implemented in Rust and shared by the CLI, the server, the MCP
-              tools and this page.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {FEATURES.map((f) => (
-              <article
-                key={f.title}
-                className="rounded-2xl border border-slate-200 bg-white p-6">
-                <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                  <f.icon className="h-[1.375rem] w-[1.375rem]" />
-                </div>
-                <h3 className="mb-2 text-lg font-semibold text-slate-900">
-                  {f.title}
-                </h3>
-                <p className="text-[0.9375rem] text-slate-600">{f.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Features />
 
       {/* how it works */}
       <section id="how" className="bg-slate-50 py-20">
@@ -468,31 +387,7 @@ const Home: FC = () => (
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-slate-50 py-20">
-        <div className="mx-auto w-full max-w-6xl px-5 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-            Your next logo deserves real paths.
-          </h2>
-          <p className="mt-3 text-[1.0625rem] text-slate-600">
-            Trace it in the browser above, or take the binary for your pipeline.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a
-              href="#try"
-              className="rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white no-underline hover:bg-blue-700">
-              Convert an image
-            </a>
-            <a
-              href={GITHUB}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900 no-underline hover:border-slate-400">
-              Star on GitHub
-            </a>
-          </div>
-        </div>
-      </section>
+      <CTA />
     </main>
 
     <Footer />
