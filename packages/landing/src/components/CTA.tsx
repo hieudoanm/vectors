@@ -1,30 +1,45 @@
 import Link from 'next/link';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
-const GITHUB = 'https://github.com/hieudoanm/vectors';
+export interface CTALink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
 
-const CTA: FC = () => (
-  <section className="bg-slate-50 py-20">
+interface CTAProps {
+  title: string;
+  description: ReactNode;
+  primary: CTALink;
+  secondary?: CTALink;
+}
+
+const CTAButton: FC<{ link: CTALink; className: string }> = ({
+  link,
+  className,
+}) =>
+  link.external ? (
+    <a href={link.href} target="_blank" rel="noreferrer" className={className}>
+      {link.label}
+    </a>
+  ) : (
+    <Link href={link.href} className={className}>
+      {link.label}
+    </Link>
+  );
+
+const CTA: FC<CTAProps> = ({ title, description, primary, secondary }) => (
+  <section className="bg-base-200 py-20">
     <div className="mx-auto w-full max-w-6xl px-5 text-center">
-      <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-        Your next logo deserves real paths.
+      <h2 className="text-base-content m-0 text-3xl leading-tight font-bold tracking-normal text-balance">
+        {title}
       </h2>
-      <p className="mt-3 text-[1.0625rem] text-slate-600">
-        Trace it in the browser above, or take the binary for your pipeline.
-      </p>
+      <div className="text-base-content/60 mt-3 text-lg">{description}</div>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Link
-          href="#try"
-          className="rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white no-underline hover:bg-blue-700">
-          Convert an image
-        </Link>
-        <Link
-          href={GITHUB}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900 no-underline hover:border-slate-400">
-          Star on GitHub
-        </Link>
+        <CTAButton link={primary} className="btn btn-accent btn-lg" />
+        {secondary && (
+          <CTAButton link={secondary} className="btn btn-outline btn-lg" />
+        )}
       </div>
     </div>
   </section>

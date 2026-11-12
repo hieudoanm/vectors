@@ -23,11 +23,11 @@ export const Dropzone: FC<DropzoneProps> = ({
     onDrop={onDrop}
     onDragOver={onDragOver}
     onDragLeave={onDragLeave}
-    className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-14 text-center transition focus:ring-4 focus:ring-blue-300/50 focus:outline-none ${
-      dragActive ? 'border-blue-500 bg-blue-50' : 'border-slate-300 bg-white'
+    className={`focus:ring-primary/30 flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-14 text-center transition focus:ring-4 focus:outline-none ${
+      dragActive ? 'border-primary bg-primary/10' : 'border-slate-300 bg-white'
     }`}>
     <svg
-      className="h-12 w-12 text-blue-600"
+      className="text-primary h-12 w-12"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -40,7 +40,7 @@ export const Dropzone: FC<DropzoneProps> = ({
     </svg>
     <div>
       <p className="text-lg font-semibold">
-        <span className="text-blue-600">Click to upload</span> or drag and drop
+        <span className="text-primary">Click to upload</span> or drag and drop
       </p>
       <p className="mt-1 text-sm text-slate-500">PNG files only, up to 10 MB</p>
     </div>

@@ -35,7 +35,7 @@ export const FilePreview: FC<FilePreviewProps> = ({
 }) => (
   <section className="rounded-2xl border border-slate-200 bg-white p-5">
     <div className="flex items-center gap-4">
-      <div className="checker relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-slate-200">
+      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-[repeating-conic-gradient(#e5e7eb_0%_25%,transparent_0%_50%)] [background-size:16px_16px]">
         <Image
           src={dataUrl}
           alt="Selected PNG preview"
@@ -66,7 +66,7 @@ export const FilePreview: FC<FilePreviewProps> = ({
         </div>
         <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
           <div
-            className="h-full rounded-full bg-blue-500 transition-all duration-150"
+            className="bg-primary h-full rounded-full transition-all duration-150"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -75,7 +75,7 @@ export const FilePreview: FC<FilePreviewProps> = ({
     <button
       onClick={onConvert}
       disabled={converting}
-      className="mt-5 w-full rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white shadow hover:bg-blue-500 focus:ring-4 focus:ring-blue-300/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60">
+      className="btn btn-primary mt-5 w-full">
       {converting ? 'Converting…' : hasSvg ? 'Convert again' : 'Convert to SVG'}
     </button>
   </section>

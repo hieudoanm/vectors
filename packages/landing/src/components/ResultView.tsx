@@ -36,7 +36,7 @@ export const ResultView: FC<ResultViewProps> = ({
             {fmt(originalSize)}
           </span>
         </figcaption>
-        <div className="checker relative flex aspect-square items-center justify-center overflow-hidden rounded-lg">
+        <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-[repeating-conic-gradient(#e5e7eb_0%_25%,transparent_0%_50%)] [background-size:16px_16px]">
           <Image
             src={dataUrl}
             alt="Original PNG"
@@ -54,7 +54,7 @@ export const ResultView: FC<ResultViewProps> = ({
             {fmt(svgSize)}
           </span>
         </figcaption>
-        <div className="checker relative flex aspect-square items-center justify-center overflow-hidden rounded-lg">
+        <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-[repeating-conic-gradient(#e5e7eb_0%_25%,transparent_0%_50%)] [background-size:16px_16px]">
           <Image
             src={blobUrl}
             alt="Converted SVG"
