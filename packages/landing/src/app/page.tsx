@@ -6,6 +6,7 @@ import { LuCpu, LuPuzzle } from 'react-icons/lu';
 import { Converter } from '@/components/Converter';
 import Footer from '@/components/Footer';
 import Features, { type Feature } from '@/components/Features';
+import Hero from '@/components/Hero';
 import CTA from '@/components/CTA';
 import {
   LuFileImage,
@@ -169,91 +170,58 @@ const Home: FC = () => (
 
     <main id="top">
       {/* hero */}
-      <section className="pt-20 pb-16">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-5 text-left lg:grid-cols-[1.05fr_1fr]">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-              Raster in, vectors out. Offline, deterministic, one binary.
-            </h1>
-            <p className="mt-6 max-w-xl text-xl text-slate-600">
-              vectors is a classical raster-to-vector tracer written in Rust: it
-              quantizes an image into a palette, segments pixels into regions,
-              walks their boundaries, fits Bézier curves, and emits clean SVG —
-              then goes the other way and rasterizes SVG back to a sized PNG. No
-              models, no uploads, no surprises.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-start gap-3">
-              <a href="#try" className="btn btn-primary btn-lg">
-                Try the converter
-              </a>
-              <a
-                href={GITHUB}
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-outline btn-lg">
-                Source on GitHub
-              </a>
-            </div>
-            <dl className="mt-10 grid grid-cols-3 gap-6">
-              <div>
-                <dt className="text-2xl font-bold tabular-nums">1</dt>
-                <dd className="m-0 text-sm text-slate-500">pipeline</dd>
-              </div>
-              <div>
-                <dt className="text-2xl font-bold tabular-nums">0</dt>
-                <dd className="m-0 text-sm text-slate-500">network calls</dd>
-              </div>
-              <div>
-                <dt className="text-2xl font-bold tabular-nums">byte</dt>
-                <dd className="m-0 text-sm text-slate-500">
-                  -identical output
-                </dd>
-              </div>
-            </dl>
-          </div>
-          <Term
-            caption="vectors — first trace"
-            lines={[
-              [
-                { t: '$ ', c: 'prompt' },
-                { t: 'vectors', c: 'cmd' },
-                { t: ' logo.png logo.svg', c: 'dim' },
-              ],
-              [{ t: 'wrote logo.svg — 12 paths, 8 colours', c: 'dim' }],
-              [
-                { t: '$ ', c: 'prompt' },
-                { t: 'vectors', c: 'cmd' },
-                { t: ' logo.svg icon.png', c: 'dim' },
-                { t: ' --width', c: 'flag' },
-                { t: ' 512', c: 'str' },
-              ],
-              [{ t: 'wrote icon.png — 512×512', c: 'dim' }],
-              [
-                { t: '$ ', c: 'prompt' },
-                { t: 'vectors', c: 'cmd' },
-                { t: ' serve', c: 'dim' },
-              ],
-              [
-                { t: 'listening on ', c: 'dim' },
-                { t: 'http://localhost:8080', c: 'url' },
-              ],
-              [
-                { t: '$ ', c: 'prompt' },
-                { t: 'curl', c: 'cmd' },
-                { t: ' -X ', c: 'flag' },
-                { t: 'POST', c: 'flag' },
-                { t: ' localhost:8080/vectors ', c: 'url' },
-                { t: '\\', c: 'dim' },
-              ],
-              [
-                { t: '    -F ', c: 'flag' },
-                { t: '"file=@logo.png"', c: 'str' },
-              ],
-              [{ t: '{"svg": "<svg …>"}', c: 'dim' }],
-            ]}
-          />
-        </div>
-      </section>
+      <Hero
+        title="Raster in, vectors out. Offline, deterministic, one binary."
+        description="vectors is a classical raster-to-vector tracer written in Rust: it quantizes an image into a palette, segments pixels into regions, walks their boundaries, fits Bézier curves, and emits clean SVG — then goes the other way and rasterizes SVG back to a sized PNG. No models, no uploads, no surprises."
+        primary={{ label: 'Try the converter', href: '#try' }}
+        secondary={{ label: 'Source on GitHub', href: GITHUB, external: true }}
+        stats={[
+          { value: '1', label: 'pipeline' },
+          { value: '0', label: 'network calls' },
+          { value: 'byte', label: '-identical output' },
+        ]}>
+        <Term
+          caption="vectors — first trace"
+          lines={[
+            [
+              { t: '$ ', c: 'prompt' },
+              { t: 'vectors', c: 'cmd' },
+              { t: ' logo.png logo.svg', c: 'dim' },
+            ],
+            [{ t: 'wrote logo.svg — 12 paths, 8 colours', c: 'dim' }],
+            [
+              { t: '$ ', c: 'prompt' },
+              { t: 'vectors', c: 'cmd' },
+              { t: ' logo.svg icon.png', c: 'dim' },
+              { t: ' --width', c: 'flag' },
+              { t: ' 512', c: 'str' },
+            ],
+            [{ t: 'wrote icon.png — 512×512', c: 'dim' }],
+            [
+              { t: '$ ', c: 'prompt' },
+              { t: 'vectors', c: 'cmd' },
+              { t: ' serve', c: 'dim' },
+            ],
+            [
+              { t: 'listening on ', c: 'dim' },
+              { t: 'http://localhost:8080', c: 'url' },
+            ],
+            [
+              { t: '$ ', c: 'prompt' },
+              { t: 'curl', c: 'cmd' },
+              { t: ' -X ', c: 'flag' },
+              { t: 'POST', c: 'flag' },
+              { t: ' localhost:8080/vectors ', c: 'url' },
+              { t: '\\', c: 'dim' },
+            ],
+            [
+              { t: '    -F ', c: 'flag' },
+              { t: '"file=@logo.png"', c: 'str' },
+            ],
+            [{ t: '{"svg": "<svg …>"}', c: 'dim' }],
+          ]}
+        />
+      </Hero>
 
       {/* try it */}
       <section id="try" className="bg-slate-50 py-20">
