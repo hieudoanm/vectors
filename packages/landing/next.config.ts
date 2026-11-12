@@ -3,16 +3,20 @@ import type { NextConfig } from 'next';
 const NODE_ENV = process.env.NODE_ENV ?? 'development';
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  basePath: NODE_ENV === 'production' ? '/vectors' : '',
   turbopack: {
     rules: {
       '*.css': {
         loaders: ['@tailwindcss/turbopack'],
-        as: '*.css',
       },
     },
   },
+
+  output: 'export',
+  trailingSlash: true,
+  // GitHub Pages project site lives under /vectors/
+  basePath: NODE_ENV === 'production' ? '/vectors' : '',
+  assetPrefix: NODE_ENV === 'production' ? '/vectors' : '',
+  images: { unoptimized: true },
 };
 
 export default nextConfig;
