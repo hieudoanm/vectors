@@ -16,6 +16,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/typography": "0.5.20",
     "@vectors/core": "workspace:*",
     "daisyui": "5.7.50",
     "next": "16.4.6",
