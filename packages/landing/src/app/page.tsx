@@ -68,17 +68,23 @@ const Term: FC<TermProps> = ({ caption, lines }) => (
     <figcaption className="border-b border-slate-800 bg-slate-950 px-3.5 py-2 text-xs text-slate-500">
       {caption}
     </figcaption>
-    <pre className="overflow-x-auto px-5 py-4 font-mono text-xs leading-relaxed whitespace-pre text-slate-200 tabular-nums">
-      {lines.map((line, i) => (
-        <span key={i} className="block min-h-[1.7em]">
-          {line.map((tok, j) => (
-            <span key={j} className={TK[tok.c ?? 'ok']}>
-              {tok.t}
-            </span>
-          ))}
-        </span>
-      ))}
-    </pre>
+    <div className="mockup-code rounded-none">
+      {lines.map((line, i) => {
+        const prompt = line[0]?.c === 'prompt' ? line[0].t.trim() : null;
+        const tokens = prompt ? line.slice(1) : line;
+        return (
+          <pre key={i} {...(prompt ? { 'data-prefix': prompt } : {})}>
+            <code>
+              {tokens.map((tok, j) => (
+                <span key={j} className={TK[tok.c ?? 'ok']}>
+                  {tok.t}
+                </span>
+              ))}
+            </code>
+          </pre>
+        );
+      })}
+    </div>
   </figure>
 );
 
