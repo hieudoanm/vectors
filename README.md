@@ -3,7 +3,9 @@
 [![CI](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 
-![Vectors Logo](docs/07-ui-ux-design/brand/images/og.png)
+<p align="center">
+  <img src="assets/branding/png/og.png" alt="vectors — turn PNG and JPEG images into clean SVG paths" width="720">
+</p>
 
 **Turn PNG and JPEG images into clean SVG paths — and rasterize SVG back to PNG at any size — entirely offline.**
 
@@ -11,7 +13,27 @@ vectors is a classical raster-to-vector tracer written from scratch in Rust. It 
 
 The tracer ships as a CLI, an HTTP API, an MCP server, a Rust library (compiled to WebAssembly for the web app), and a Next.js landing page with an in-browser converter.
 
-[🚀 Quick Start](#get-started) · [🔍 How It Works](#how-it-works) · [🧰 CLI](#cli) · [📦 Crates and Packages](#crates-and-packages) · [🗺 Roadmap](docs/ROADMAP.md)
+## Table of Contents
+
+- [The Problem](#the-problem)
+- [The Solution](#the-solution)
+- [Features](#features)
+  - [Tracing](#tracing)
+  - [Surfaces](#surfaces)
+  - [SVG → PNG](#svg--png)
+  - [Quality harness (optional)](#quality-harness-optional)
+- [Key Benefits](#key-benefits)
+- [Get Started](#get-started)
+- [CLI](#cli)
+- [How It Works](#how-it-works)
+- [Measuring Quality](#measuring-quality)
+- [Crates and Packages](#crates-and-packages)
+- [Use Cases](#use-cases)
+- [Why This Project?](#why-this-project)
+- [Project Status and Trust](#project-status-and-trust)
+- [Community and Contributions](#community-and-contributions)
+- [Call to Action](#call-to-action)
+- [License](#license)
 
 ## The Problem
 
