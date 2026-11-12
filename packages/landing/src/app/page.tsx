@@ -5,8 +5,18 @@ import type { FC } from 'react';
 import { LuCpu, LuPuzzle } from 'react-icons/lu';
 import { Converter } from '@/components/Converter';
 import Footer from '@/components/Footer';
-import Features from '@/components/Features';
+import Features, { type Feature } from '@/components/Features';
 import CTA from '@/components/CTA';
+import {
+  LuFileImage,
+  LuGitBranch,
+  LuLayers,
+  LuPalette,
+  LuRepeat,
+  LuServer,
+  LuShieldCheck,
+  LuSpline,
+} from 'react-icons/lu';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -37,7 +47,7 @@ interface Tok {
 }
 
 const TK: Record<TokKind, string> = {
-  prompt: 'text-orange-400',
+  prompt: 'text-accent',
   cmd: 'font-semibold text-sky-300',
   flag: 'text-amber-300',
   str: 'text-green-300',
@@ -55,10 +65,10 @@ interface TermProps {
 
 const Term: FC<TermProps> = ({ caption, lines }) => (
   <figure className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-xl shadow-slate-900/10">
-    <figcaption className="border-b border-slate-800 bg-slate-950 px-3.5 py-2 text-[0.8125rem] text-slate-500">
+    <figcaption className="border-b border-slate-800 bg-slate-950 px-3.5 py-2 text-xs text-slate-500">
       {caption}
     </figcaption>
-    <pre className="overflow-x-auto px-5 py-4 font-mono text-[0.8125rem] leading-[1.7] whitespace-pre text-slate-200 tabular-nums">
+    <pre className="overflow-x-auto px-5 py-4 font-mono text-xs leading-relaxed whitespace-pre text-slate-200 tabular-nums">
       {lines.map((line, i) => (
         <span key={i} className="block min-h-[1.7em]">
           {line.map((tok, j) => (
@@ -71,6 +81,49 @@ const Term: FC<TermProps> = ({ caption, lines }) => (
     </pre>
   </figure>
 );
+
+const FEATURES: Feature[] = [
+  {
+    title: 'Palette & binary modes',
+    body: 'Median-cut colour quantization (default 8 colours) or a single luminance threshold for black-and-white output.',
+    icon: LuPalette,
+  },
+  {
+    title: 'Real holes, not hacks',
+    body: '8-connected segmentation walks each region’s boundary and emits outer contours plus holes with fill-rule="evenodd".',
+    icon: LuGitBranch,
+  },
+  {
+    title: 'Bézier-fitted curves',
+    body: 'Douglas–Peucker simplification followed by least-squares curve fitting — editable paths, not a bitmap in a trench coat.',
+    icon: LuSpline,
+  },
+  {
+    title: 'Deterministic output',
+    body: 'No RNG, no hash-order dependence. Identical input produces byte-identical SVG, so baselines and diffs stay meaningful.',
+    icon: LuRepeat,
+  },
+  {
+    title: 'CLI, API, MCP & library',
+    body: 'One pipeline, many surfaces: vectors trace, vectors serve, vectors mcp serve, or the Rust crate compiled to WebAssembly.',
+    icon: LuServer,
+  },
+  {
+    title: 'SVG → PNG too',
+    body: 'The inverse direction renders SVG back to a sized PNG — exact grid or proportional — with resvg behind the raster feature.',
+    icon: LuFileImage,
+  },
+  {
+    title: 'Measured, not vibes',
+    body: 'An optional eval harness rasterizes the emitted SVG and scores MAE, PSNR, SSIM and edge agreement against committed baselines.',
+    icon: LuLayers,
+  },
+  {
+    title: 'Offline & private',
+    body: 'A static binary with no network calls. The web converter runs the same tracer in your browser — files never leave the machine.',
+    icon: LuShieldCheck,
+  },
+];
 
 const Home: FC = () => (
   <>
@@ -85,22 +138,22 @@ const Home: FC = () => (
         <nav className="ml-auto hidden items-center gap-5 lg:flex">
           <Link
             href="#try"
-            className="text-[0.9375rem] text-slate-600 no-underline hover:text-slate-900">
+            className="text-sm text-slate-600 no-underline hover:text-slate-900">
             Try it
           </Link>
           <Link
             href="#features"
-            className="text-[0.9375rem] text-slate-600 no-underline hover:text-slate-900">
+            className="text-sm text-slate-600 no-underline hover:text-slate-900">
             Features
           </Link>
           <Link
             href="#how"
-            className="text-[0.9375rem] text-slate-600 no-underline hover:text-slate-900">
+            className="text-sm text-slate-600 no-underline hover:text-slate-900">
             How it works
           </Link>
           <Link
             href="#install"
-            className="text-[0.9375rem] text-slate-600 no-underline hover:text-slate-900">
+            className="text-sm text-slate-600 no-underline hover:text-slate-900">
             Install
           </Link>
         </nav>
@@ -108,7 +161,7 @@ const Home: FC = () => (
           href={GITHUB}
           target="_blank"
           rel="noreferrer"
-          className="rounded-lg bg-blue-600 px-3.5 py-1.5 text-sm font-semibold text-white no-underline hover:bg-blue-700">
+          className="btn btn-primary btn-sm">
           GitHub
         </a>
       </div>
@@ -122,7 +175,7 @@ const Home: FC = () => (
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
               Raster in, vectors out. Offline, deterministic, one binary.
             </h1>
-            <p className="mt-6 max-w-xl text-[1.1875rem] text-slate-600">
+            <p className="mt-6 max-w-xl text-xl text-slate-600">
               vectors is a classical raster-to-vector tracer written in Rust: it
               quantizes an image into a palette, segments pixels into regions,
               walks their boundaries, fits Bézier curves, and emits clean SVG —
@@ -130,16 +183,14 @@ const Home: FC = () => (
               models, no uploads, no surprises.
             </p>
             <div className="mt-8 flex flex-wrap justify-start gap-3">
-              <a
-                href="#try"
-                className="rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white no-underline hover:bg-blue-700">
+              <a href="#try" className="btn btn-primary btn-lg">
                 Try the converter
               </a>
               <a
                 href={GITHUB}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-lg border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-900 no-underline hover:border-slate-400">
+                className="btn btn-outline btn-lg">
                 Source on GitHub
               </a>
             </div>
@@ -211,7 +262,7 @@ const Home: FC = () => (
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
               Try it right here.
             </h2>
-            <p className="mt-3 text-[1.0625rem] text-slate-600">
+            <p className="mt-3 text-lg text-slate-600">
               The same Rust tracer, compiled to WebAssembly and running entirely
               in your browser. Drop a PNG and get editable SVG paths back.
             </p>
@@ -224,7 +275,11 @@ const Home: FC = () => (
       </section>
 
       {/* features */}
-      <Features />
+      <Features
+        title="A real tracer, not a wrapper."
+        description="Every stage — quantize, segment, contour, simplify, fit — is implemented in Rust and shared by the CLI, the server, the MCP tools and this page."
+        features={FEATURES}
+      />
 
       {/* how it works */}
       <section id="how" className="bg-slate-50 py-20">
@@ -233,7 +288,7 @@ const Home: FC = () => (
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
               One linear pipeline.
             </h2>
-            <p className="mt-3 text-[1.0625rem] text-slate-600">
+            <p className="mt-3 text-lg text-slate-600">
               Each stage consumes the previous stage&apos;s type and knows
               nothing about how the next one renders. Deterministic by
               construction — no RNG, no hash-order dependence.
@@ -245,7 +300,7 @@ const Home: FC = () => (
                 <code
                   className={`rounded-lg px-3 py-1.5 text-sm font-medium ${
                     stage === 'SVG'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-primary text-primary-content'
                       : 'border border-slate-200 bg-white text-slate-700'
                   }`}>
                   {stage}
@@ -260,26 +315,26 @@ const Home: FC = () => (
           </div>
           <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-white p-6">
-              <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                <LuPuzzle className="h-[1.375rem] w-[1.375rem]" />
+              <div className="bg-primary/10 text-primary mb-3 flex h-11 w-11 items-center justify-center rounded-lg">
+                <LuPuzzle className="h-6 w-6" />
               </div>
               <h3 className="mb-2 text-lg font-semibold text-slate-900">
                 Debug artefacts
               </h3>
-              <p className="text-[0.9375rem] text-slate-600">
+              <p className="text-sm text-slate-600">
                 <code>--debug-dir</code> writes the quantized image, region map,
                 fitted curves and intermediate SVG so you can see exactly which
                 stage went wrong.
               </p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-6">
-              <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                <LuCpu className="h-[1.375rem] w-[1.375rem]" />
+              <div className="bg-primary/10 text-primary mb-3 flex h-11 w-11 items-center justify-center rounded-lg">
+                <LuCpu className="h-6 w-6" />
               </div>
               <h3 className="mb-2 text-lg font-semibold text-slate-900">
                 Measured accuracy
               </h3>
-              <p className="text-[0.9375rem] text-slate-600">
+              <p className="text-sm text-slate-600">
                 The optional eval harness rasterizes the emitted SVG and scores
                 it against the source — MAE, PSNR, SSIM, edge agreement — so
                 quality claims are numbers, not vibes.
@@ -296,13 +351,13 @@ const Home: FC = () => (
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
               Up and running in under a minute.
             </h2>
-            <p className="mt-3 text-[1.0625rem] text-slate-600">
+            <p className="mt-3 text-lg text-slate-600">
               Prebuilt binaries on the{' '}
               <a
                 href={RELEASES}
                 target="_blank"
                 rel="noreferrer"
-                className="text-blue-600">
+                className="text-primary">
                 releases page
               </a>
               , or build from source with Cargo.
@@ -372,14 +427,14 @@ const Home: FC = () => (
               ]}
             />
           </div>
-          <p className="mt-8 text-center text-[0.9375rem] text-slate-600">
+          <p className="mt-8 text-center text-sm text-slate-600">
             Also available as an HTTP API (<code>vectors serve</code>), an MCP
             server (<code>vectors mcp serve</code>), and a Rust library —{' '}
             <a
               href={`${GITHUB}#cli`}
               target="_blank"
               rel="noreferrer"
-              className="text-blue-600">
+              className="text-primary">
               full CLI reference in the README
             </a>
             .
@@ -387,7 +442,12 @@ const Home: FC = () => (
         </div>
       </section>
 
-      <CTA />
+      <CTA
+        title="Your next logo deserves real paths."
+        description="Trace it in the browser above, or take the binary for your pipeline."
+        primary={{ label: 'Convert an image', href: '#try' }}
+        secondary={{ label: 'Star on GitHub', href: GITHUB, external: true }}
+      />
     </main>
 
     <Footer />

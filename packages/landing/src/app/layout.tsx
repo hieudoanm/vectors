@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import type { FC, ReactNode } from 'react';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const inter = Inter({ subsets: ['latin'] });
 
 const SITE_URL = 'https://hieudoan.github.io/vectors';
 
@@ -27,7 +27,10 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <html lang="en" className={`h-full antialiased ${inter.variable}`}>
+    <html
+      lang="en"
+      data-theme="vectors"
+      className={`h-full scroll-smooth antialiased motion-reduce:scroll-auto ${inter.className}`}>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

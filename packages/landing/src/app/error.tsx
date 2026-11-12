@@ -12,9 +12,7 @@ const Error: FC<{
       <p className="max-w-md text-center text-sm text-gray-600 dark:text-gray-400">
         {error.message}
       </p>
-      <button
-        onClick={reset}
-        className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-white">
+      <button onClick={reset} className="btn btn-primary btn-sm">
         Try again
       </button>
     </div>

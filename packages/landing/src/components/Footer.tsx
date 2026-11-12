@@ -4,7 +4,7 @@ import type { FC } from 'react';
 const GITHUB = 'https://github.com/hieudoanm/vectors';
 
 const Footer: FC = () => (
-  <footer className="border-t border-slate-200 py-10 text-sm text-slate-500">
+  <footer className="border-base-300 text-base-content/60 border-t py-10 text-sm">
     <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-8 gap-y-4 px-5">
       <span>© {new Date().getFullYear()} vectors</span>
       <span>Raster to vector, offline · Rust · WebAssembly · MIT</span>
@@ -13,14 +13,14 @@ const Footer: FC = () => (
           href={GITHUB}
           target="_blank"
           rel="noreferrer"
-          className="text-blue-600 no-underline hover:underline">
+          className="text-base-content/60 hover:text-base-content no-underline transition-colors">
           GitHub
         </Link>
         <Link
           href={`${GITHUB}#readme`}
           target="_blank"
           rel="noreferrer"
-          className="text-blue-600 no-underline hover:underline">
+          className="text-base-content/60 hover:text-base-content no-underline transition-colors">
           README
         </Link>
       </nav>
