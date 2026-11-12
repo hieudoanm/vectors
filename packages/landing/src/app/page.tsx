@@ -58,34 +58,28 @@ const TK: Record<TokKind, string> = {
   err: 'text-red-400',
 };
 
-interface TermProps {
-  caption: string;
+interface TerminalProps {
   lines: Tok[][];
 }
 
-const Term: FC<TermProps> = ({ caption, lines }) => (
-  <figure className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-xl shadow-slate-900/10">
-    <figcaption className="border-b border-slate-800 bg-slate-950 px-3.5 py-2 text-xs text-slate-500">
-      {caption}
-    </figcaption>
-    <div className="mockup-code rounded-none">
-      {lines.map((line, i) => {
-        const prompt = line[0]?.c === 'prompt' ? line[0].t.trim() : null;
-        const tokens = prompt ? line.slice(1) : line;
-        return (
-          <pre key={i} {...(prompt ? { 'data-prefix': prompt } : {})}>
-            <code>
-              {tokens.map((tok, j) => (
-                <span key={j} className={TK[tok.c ?? 'ok']}>
-                  {tok.t}
-                </span>
-              ))}
-            </code>
-          </pre>
-        );
-      })}
-    </div>
-  </figure>
+const Terminal: FC<TerminalProps> = ({ lines }) => (
+  <div className="mockup-code">
+    {lines.map((line, i) => {
+      const prompt = line[0]?.c === 'prompt' ? line[0].t.trim() : null;
+      const tokens = prompt ? line.slice(1) : line;
+      return (
+        <pre key={i} {...(prompt ? { 'data-prefix': prompt } : {})}>
+          <code>
+            {tokens.map((tok, j) => (
+              <span key={j} className={TK[tok.c ?? 'ok']}>
+                {tok.t}
+              </span>
+            ))}
+          </code>
+        </pre>
+      );
+    })}
+  </div>
 );
 
 const FEATURES: Feature[] = [
@@ -145,8 +139,7 @@ const Home: FC = () => (
           { value: '0', label: 'network calls' },
           { value: 'byte', label: '-identical output' },
         ]}>
-        <Term
-          caption="vectors — first trace"
+        <Terminal
           lines={[
             [
               { t: '$ ', c: 'prompt' },
@@ -297,8 +290,7 @@ const Home: FC = () => (
             </p>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <Term
-              caption="install script"
+            <Terminal
               lines={[
                 [
                   { t: '$ ', c: 'prompt' },
@@ -322,8 +314,7 @@ const Home: FC = () => (
                 [{ t: 'wrote logo.svg', c: 'dim' }],
               ]}
             />
-            <Term
-              caption="build from source"
+            <Terminal
               lines={[
                 [
                   { t: '$ ', c: 'prompt' },
