@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-keywords: `svg`, `vectorization`, `rust`, `cli`, `wasm`, `mcp`
+Topics: `svg`, `vectorization`, `rust`, `cli`, `wasm`, `mcp`
 
 
 <p align="center">
