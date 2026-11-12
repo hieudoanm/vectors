@@ -1,11 +1,23 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import type { FC, ReactNode } from 'react';
+import Footer from '@/components/molecules/Footer';
+import Navbar from '@/components/molecules/Navbar';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const SITE_URL = 'https://hieudoan.github.io/vectors';
+const GITHUB = 'https://github.com/hieudoanm/vectors';
+const LOGO =
+  process.env.NODE_ENV === 'production' ? '/vectors/logo.svg' : '/logo.svg';
+const NAV_LINKS = [
+  { label: 'Try it', href: '#try' },
+  { label: 'Features', href: '#features' },
+  { label: 'How it works', href: '#how' },
+  { label: 'Install', href: '#install' },
+];
+
+const SITE_URL = 'https://hieudoanm.github.io/vectors';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -31,7 +43,21 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
       lang="en"
       data-theme="vectors"
       className={`h-full scroll-smooth antialiased motion-reduce:scroll-auto ${inter.className}`}>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <Navbar
+          name="vectors"
+          logoSrc={LOGO}
+          links={NAV_LINKS}
+          githubUrl={GITHUB}
+        />
+        {children}
+        <Footer
+          name="vectors"
+          tagline="Raster to vector, offline · Rust · WebAssembly · MIT"
+          githubUrl={GITHUB}
+        />
+        
+      </body>
     </html>
   );
 };
