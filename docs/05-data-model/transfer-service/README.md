@@ -8,18 +8,18 @@ Saga orchestrator. Owns transfer aggregate state and orchestrates the debit/cred
 
 ### transfers
 
-| Column                | Type      | Description                                                        |
-| --------------------- | --------- | ------------------------------------------------------------------ |
-| transfer_id           | uuid      | Primary key, UUID v7                                               |
-| source_account_id     | uuid      | Source account ID                                                  |
-| destination_account_id| uuid      | Destination account ID                                             |
-| amount_cents          | bigint    | Transfer amount in minor units (cents)                             |
-| status                | text      | Transfer status (pending, processing, completed, failed, reversed) |
-| idempotency_key       | text      | Idempotency key for duplicate detection                            |
-| correlation_id        | text      | Correlation ID for distributed tracing                             |
-| created_at            | timestamp | Transfer creation timestamp (ISO 8601 UTC)                         |
-| updated_at            | timestamp | Last status update timestamp (ISO 8601 UTC)                        |
-| failure_reason        | text      | Failure reason (null if not failed)                                |
+| Column                 | Type      | Description                                                        |
+| ---------------------- | --------- | ------------------------------------------------------------------ |
+| transfer_id            | uuid      | Primary key, UUID v7                                               |
+| source_account_id      | uuid      | Source account ID                                                  |
+| destination_account_id | uuid      | Destination account ID                                             |
+| amount_cents           | bigint    | Transfer amount in minor units (cents)                             |
+| status                 | text      | Transfer status (pending, processing, completed, failed, reversed) |
+| idempotency_key        | text      | Idempotency key for duplicate detection                            |
+| correlation_id         | text      | Correlation ID for distributed tracing                             |
+| created_at             | timestamp | Transfer creation timestamp (ISO 8601 UTC)                         |
+| updated_at             | timestamp | Last status update timestamp (ISO 8601 UTC)                        |
+| failure_reason         | text      | Failure reason (null if not failed)                                |
 
 **Primary key:** `(transfer_id)`
 
@@ -78,18 +78,18 @@ UPDATE transfers SET status = 'failed', failure_reason = ?, updated_at = toTimes
 
 ### transfers_by_account
 
-| Column                  | Type      | Description                                          |
-| ----------------------- | --------- | ---------------------------------------------------- |
-| account_id              | uuid      | Partition key; source or destination account         |
-| transfer_id             | uuid      | Clustering key; UUID v7, DESC (newest first)         |
-| direction               | text      | `source` or `destination` relative to `account_id`   |
-| counterparty_account_id | uuid      | The other account in the transfer                    |
-| amount_cents            | bigint    | Transfer amount in minor units (cents)               |
-| status                  | text      | Transfer status                                      |
-| correlation_id          | text      | Correlation ID for distributed tracing               |
-| created_at              | timestamp | Transfer creation timestamp (ISO 8601 UTC)           |
-| updated_at              | timestamp | Last status update timestamp (ISO 8601 UTC)          |
-| failure_reason          | text      | Failure reason (null if not failed)                  |
+| Column                  | Type      | Description                                        |
+| ----------------------- | --------- | -------------------------------------------------- |
+| account_id              | uuid      | Partition key; source or destination account       |
+| transfer_id             | uuid      | Clustering key; UUID v7, DESC (newest first)       |
+| direction               | text      | `source` or `destination` relative to `account_id` |
+| counterparty_account_id | uuid      | The other account in the transfer                  |
+| amount_cents            | bigint    | Transfer amount in minor units (cents)             |
+| status                  | text      | Transfer status                                    |
+| correlation_id          | text      | Correlation ID for distributed tracing             |
+| created_at              | timestamp | Transfer creation timestamp (ISO 8601 UTC)         |
+| updated_at              | timestamp | Last status update timestamp (ISO 8601 UTC)        |
+| failure_reason          | text      | Failure reason (null if not failed)                |
 
 **Primary key:** `((account_id), transfer_id)`
 
@@ -135,16 +135,16 @@ VALUES (?, ?, ?, ?, ?, 'pending', ?, toTimestamp(now()), toTimestamp(now()));
 
 ### idempotency_keys
 
-| Column          | Type      | Description                                          |
-| --------------- | --------- | ---------------------------------------------------- |
-| idempotency_key | text      | Primary key                                          |
-| operation_type  | text      | Operation type (transfer, etc.)                      |
-| resource_id     | uuid      | Resource ID (e.g., transfer_id)                      |
-| request_hash    | text      | Hash of the request payload (to detect key reuse)    |
-| response_status | int       | Cached HTTP status for a completed operation         |
-| response_body   | text      | Cached response body to replay for the same key      |
-| expires_at      | timestamp | Expiration timestamp (ISO 8601 UTC)                  |
-| created_at      | timestamp | Creation timestamp (ISO 8601 UTC)                    |
+| Column          | Type      | Description                                       |
+| --------------- | --------- | ------------------------------------------------- |
+| idempotency_key | text      | Primary key                                       |
+| operation_type  | text      | Operation type (transfer, etc.)                   |
+| resource_id     | uuid      | Resource ID (e.g., transfer_id)                   |
+| request_hash    | text      | Hash of the request payload (to detect key reuse) |
+| response_status | int       | Cached HTTP status for a completed operation      |
+| response_body   | text      | Cached response body to replay for the same key   |
+| expires_at      | timestamp | Expiration timestamp (ISO 8601 UTC)               |
+| created_at      | timestamp | Creation timestamp (ISO 8601 UTC)                 |
 
 **Primary key:** `(idempotency_key)`
 
@@ -193,18 +193,18 @@ USING TTL 86400;
 
 Each service records its own audit log; the Transfer Service owns this table inside `transfer_keyspace`. The table shape is shared across services (see [`../shared/README.md`](../shared/README.md)).
 
-| Column         | Type            | Description                                                      |
-| -------------- | --------------- | ---------------------------------------------------------------- |
-| service        | text            | Owning service (constant `transfer` here)                        |
-| day            | date            | Partition day (UTC) for bounded partitions                       |
-| timestamp      | timestamp       | Event timestamp (ISO 8601 UTC)                                   |
-| event_id       | uuid            | Event ID, UUID v7                                                |
-| actor_user_id  | uuid            | Actor user ID (null for system events)                           |
-| action         | text            | Action performed (transfer_initiated, completed, failed)         |
-| resource_type  | text            | Resource type (transfer)                                         |
-| resource_id    | uuid            | Resource ID                                                      |
-| correlation_id | text            | Correlation ID for distributed tracing                           |
-| metadata       | map<text, text> | Additional metadata (key-value pairs, no sensitive data)         |
+| Column         | Type            | Description                                              |
+| -------------- | --------------- | -------------------------------------------------------- |
+| service        | text            | Owning service (constant `transfer` here)                |
+| day            | date            | Partition day (UTC) for bounded partitions               |
+| timestamp      | timestamp       | Event timestamp (ISO 8601 UTC)                           |
+| event_id       | uuid            | Event ID, UUID v7                                        |
+| actor_user_id  | uuid            | Actor user ID (null for system events)                   |
+| action         | text            | Action performed (transfer_initiated, completed, failed) |
+| resource_type  | text            | Resource type (transfer)                                 |
+| resource_id    | uuid            | Resource ID                                              |
+| correlation_id | text            | Correlation ID for distributed tracing                   |
+| metadata       | map<text, text> | Additional metadata (key-value pairs, no sensitive data) |
 
 **Primary key:** `((service, day), timestamp, event_id)`
 
@@ -238,7 +238,7 @@ CREATE TABLE audit_events (
 
 The Transfer Service maintains the following state machine per transfer:
 
-```
+```text
 pending
   │
   ▼ (Kafka consumer picks up transfer.initiated)

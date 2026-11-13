@@ -5,9 +5,7 @@
 Topics: `svg`, `vectorization`, `rust`, `cli`, `wasm`, `mcp`
 
 
-<p align="center">
-  <img src="assets/branding/png/og.png" alt="vectors — turn PNG and JPEG images into clean SVG paths" width="720">
-</p>
+![vectors — turn PNG and JPEG images into clean SVG paths](assets/branding/images/og.png)
 
 **Live demo:** <https://hieudoanm.github.io/vectors/>
 
@@ -21,25 +19,32 @@ The tracer ships as a CLI, an HTTP API, an MCP server, a Rust library (compiled 
 
 ## Table of Contents
 
-- [The Problem](#the-problem)
-- [The Solution](#the-solution)
-- [Features](#features)
-  - [Tracing](#tracing)
-  - [Surfaces](#surfaces)
-  - [SVG → PNG](#svg--png)
-  - [Quality harness (optional)](#quality-harness-optional)
-- [Key Benefits](#key-benefits)
-- [Get Started](#get-started)
-- [CLI](#cli)
-- [How It Works](#how-it-works)
-- [Measuring Quality](#measuring-quality)
-- [Crates and Packages](#crates-and-packages)
-- [Use Cases](#use-cases)
-- [Why This Project?](#why-this-project)
-- [Project Status and Trust](#project-status-and-trust)
-- [Community and Contributions](#community-and-contributions)
-- [Call to Action](#call-to-action)
-- [License](#license)
+- [vectors](#vectors)
+  - [Table of Contents](#table-of-contents)
+  - [The Problem](#the-problem)
+  - [The Solution](#the-solution)
+  - [Features](#features)
+    - [Tracing](#tracing)
+    - [Surfaces](#surfaces)
+    - [SVG → PNG](#svg--png)
+    - [Quality harness (optional)](#quality-harness-optional)
+  - [Key Benefits](#key-benefits)
+  - [Get Started](#get-started)
+    - [Prerequisites](#prerequisites)
+    - [Build the CLI](#build-the-cli)
+    - [Convert your first image](#convert-your-first-image)
+    - [Build everything](#build-everything)
+  - [CLI](#cli)
+    - [Examples](#examples)
+  - [How It Works](#how-it-works)
+  - [Measuring Quality](#measuring-quality)
+  - [Crates and Packages](#crates-and-packages)
+  - [Use Cases](#use-cases)
+  - [Why This Project?](#why-this-project)
+  - [Project Status and Trust](#project-status-and-trust)
+  - [Community and Contributions](#community-and-contributions)
+  - [Call to Action](#call-to-action)
+  - [License](#license)
 
 ## The Problem
 
@@ -236,12 +241,12 @@ cargo run --release --features eval -- sweep tests/golden/images colors 2 4 8 16
 
 ## Crates and Packages
 
-| Path                 | What it is                                                                                                                                         |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `crates/vectors-core`      | Core Rust library: pipeline, SVG serializer, SVG → PNG renderer. Builds for `wasm32-unknown-unknown`.                                              |
+| Path                  | What it is                                                                                                                                          |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `crates/vectors-core` | Core Rust library: pipeline, SVG serializer, SVG → PNG renderer. Builds for `wasm32-unknown-unknown`.                                               |
 | `crates/vectors-cli`  | The `vectors` binary and its surfaces: clap parsing, flag mapping, file I/O, HTTP server, MCP server, debug artefacts, and the measurement harness. |
-| `packages/landing`    | Next.js landing page + in-browser converter (tracer via `@vectors/core` wasm); static export deployed to GitHub Pages.                            |
-| `docs/`              | Architecture, roadmap, packaging, and design notes.                                                                                                |
+| `packages/landing`    | Next.js landing page + in-browser converter (tracer via `@vectors/core` wasm); static export deployed to GitHub Pages.                              |
+| `docs/`               | Architecture, roadmap, packaging, and design notes.                                                                                                 |
 
 The Rust crates share a Cargo workspace rooted at `crates/`; run `cargo` commands
 from `crates/` to build or test the whole workspace. Each crate and package has
