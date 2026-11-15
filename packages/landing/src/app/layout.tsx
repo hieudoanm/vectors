@@ -30,12 +30,48 @@ export const metadata: Metadata = {
     'Turn PNG and JPEG images into clean SVG paths — and rasterize SVG back to PNG at any size — entirely offline. A deterministic Rust tracer with a CLI, HTTP API, MCP server, and this in-browser converter.',
   manifest: '/manifest.json',
   icons: { icon: '/icon.svg' },
+  keywords: [
+    'raster to SVG',
+    'image vectorization',
+    'PNG to SVG',
+    'SVG to PNG',
+    'offline image converter',
+    'Rust',
+    'CLI',
+    'HTTP API',
+    'MCP server',
+  ],
+  authors: [{ name: 'hieudoan', url: 'https://github.com/hieudoanm/vectors' }],
+  category: 'software',
   openGraph: {
     title: 'Vectors — raster to SVG, offline',
     description:
       'A deterministic raster-to-vector tracer in Rust. Try the converter right here — no upload, no account.',
     images: ['/og.png'],
   },
+};
+
+const JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'Vectors',
+      url: 'https://hieudoanm.github.io/vectors/',
+      description:
+        'Turn PNG and JPEG images into clean SVG paths — and rasterize SVG back to PNG at any size — entirely offline. A deterministic Rust tracer with a CLI, HTTP API, MCP server, and this in-browser converter.',
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'Vectors',
+      applicationCategory: 'MultimediaApplication',
+      description:
+        'Turn PNG and JPEG images into clean SVG paths — and rasterize SVG back to PNG at any size — entirely offline. A deterministic Rust tracer with a CLI, HTTP API, MCP server, and this in-browser converter.',
+      url: 'https://hieudoanm.github.io/vectors/',
+      codeRepository: 'https://github.com/hieudoanm/vectors',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    },
+  ],
 };
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
@@ -45,6 +81,10 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
       data-theme="vectors"
       className={`h-full scroll-smooth antialiased motion-reduce:scroll-auto ${inter.className}`}>
       <body className="flex min-h-full flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
         <Navbar
           name="vectors"
           logoSrc={LOGO}
