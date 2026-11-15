@@ -1,0 +1,26 @@
+# Vectors
+
+> Turn PNG and JPEG images into clean SVG paths — and rasterize SVG back to PNG at any size — entirely offline. A deterministic Rust tracer with a CLI, HTTP API, MCP server, and this in-browser converter.
+
+- Repository: https://github.com/hieudoanm/vectors
+- Site: https://hieudoanm.github.io/vectors/
+
+## Documentation
+
+### api-reference
+
+- [HTTP API](https://hieudoanm.github.io/vectors/docs/api-reference/api/)
+### concepts
+
+- [Tracing pipeline](https://hieudoanm.github.io/vectors/docs/concepts/tracing-pipeline/)
+### getting-started
+
+- [Installation](https://hieudoanm.github.io/vectors/docs/getting-started/installation/)
+- [Quickstart](https://hieudoanm.github.io/vectors/docs/getting-started/quickstart/)
+### guides
+
+- [CLI examples](https://hieudoanm.github.io/vectors/docs/guides/cli/)
+- [HTTP API and MCP server](https://hieudoanm.github.io/vectors/docs/guides/http-api-and-mcp/)
+### overview
+
+- [vectors documentation](https://hieudoanm.github.io/vectors/docs/)
