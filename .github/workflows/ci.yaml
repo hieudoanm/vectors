@@ -121,7 +121,7 @@ jobs:
         run: |
           gh release create latest dist/* \
             --title "vectors (latest)" \
-            --notes-file README.md \
+            --notes-file RELEASE.md \
             --target "${{ github.sha }}"
 
   landing-build:
