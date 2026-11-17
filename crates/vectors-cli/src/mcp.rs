@@ -150,6 +150,37 @@ mod tests {
     }
 
     #[test]
+    fn listed_tool_has_all_four_boolean_annotations() {
+        let input = b"{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}\n";
+        let mut output = Vec::new();
+        serve(&mut Cursor::new(input), &mut output).expect("serve frames");
+        let line: Value = serde_json::from_str(
+            String::from_utf8(output)
+                .unwrap()
+                .lines()
+                .next()
+                .expect("one response"),
+        )
+        .expect("response JSON");
+        let tool = &line["result"]["tools"][0];
+        assert_eq!(tool["name"], "vectors_trace");
+        let annotations = &tool["annotations"];
+        for hint in [
+            "readOnlyHint",
+            "destructiveHint",
+            "idempotentHint",
+            "openWorldHint",
+        ] {
+            assert!(
+                annotations.get(hint).is_some_and(Value::is_boolean),
+                "missing boolean annotation {hint}: {annotations}"
+            );
+        }
+        assert_eq!(annotations["readOnlyHint"], json!(true));
+        assert_eq!(annotations["openWorldHint"], json!(false));
+    }
+
+    #[test]
     fn ignores_notifications() {
         assert!(dispatch(r#"{"jsonrpc":"2.0","method":"ping"}"#).is_none());
     }

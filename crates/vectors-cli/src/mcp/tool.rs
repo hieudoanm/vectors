@@ -8,6 +8,12 @@ pub fn definition() -> Value {
     json!({
         "name": "vectors_trace",
         "description": "Trace a PNG or JPEG supplied as base64 and return SVG plus tracing statistics.",
+        "annotations": {
+            "readOnlyHint": true,
+            "destructiveHint": false,
+            "idempotentHint": true,
+            "openWorldHint": false
+        },
         "inputSchema": {
             "type": "object",
             "properties": {
