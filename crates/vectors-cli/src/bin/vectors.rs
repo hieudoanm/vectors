@@ -44,9 +44,17 @@ fn run(cli: &Cli) -> Result<bool> {
             true
         }
         Some(Command::Mcp {
-            command: McpCommand::Serve,
+            command: McpCommand::Serve { http, token },
         }) => {
-            vectors_cli::mcp::serve_stdio()?;
+            match http {
+                Some(addr) => vectors_cli::mcp::serve_http(
+                    addr.as_str(),
+                    token
+                        .clone()
+                        .or_else(|| std::env::var("MCP_AUTH_TOKEN").ok()),
+                )?,
+                None => vectors_cli::mcp::serve_stdio()?,
+            }
             true
         }
         Some(Command::Completion { shell }) => {

@@ -7,6 +7,7 @@ use vectors::{to_svg, Raster, SvgOptions, TraceConfig};
 pub fn definition() -> Value {
     json!({
         "name": "vectors_trace",
+        "title": "Trace Image to SVG",
         "description": "Trace a PNG or JPEG supplied as base64 and return SVG plus tracing statistics.",
         "annotations": {
             "readOnlyHint": true,
