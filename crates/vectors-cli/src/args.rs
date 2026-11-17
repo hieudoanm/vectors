@@ -206,8 +206,15 @@ pub enum Command {
 
 #[derive(Debug, Subcommand)]
 pub enum McpCommand {
-    /// Start the MCP server using newline-delimited JSON-RPC on stdin/stdout.
-    Serve,
+    /// Start the MCP server (stdio by default, or streamable-HTTP with --http)
+    Serve {
+        /// Serve MCP over HTTP at this address instead of stdio
+        #[arg(long)]
+        http: Option<String>,
+        /// Bearer token required on HTTP requests (or MCP_AUTH_TOKEN)
+        #[arg(long)]
+        token: Option<String>,
+    },
 }
 
 #[cfg(test)]
@@ -304,7 +311,7 @@ mod tests {
         assert!(matches!(
             cli.command,
             Some(Command::Mcp {
-                command: McpCommand::Serve
+                command: McpCommand::Serve { .. }
             })
         ));
     }

@@ -1,5 +1,6 @@
 //! Minimal MCP stdio server exposing Vectors' raster tracing pipeline.
 
+mod http;
 mod protocol;
 mod tool;
 
@@ -78,6 +79,10 @@ fn dispatch(raw: &str) -> Option<Response> {
         Ok(request) => request,
         Err(error) => return Some(Response::error(None, -32700, error.to_string())),
     };
+    dispatch_request(request)
+}
+
+fn dispatch_request(request: Request) -> Option<Response> {
     if request.id.is_none() || request.id == Some(Value::Null) {
         return None;
     }
@@ -109,6 +114,36 @@ fn dispatch(raw: &str) -> Option<Response> {
             format!("method not found: {method}"),
         )),
     }
+}
+
+/// Serve MCP over streamable HTTP on `addr`.
+pub fn serve_http(addr: &str, token: Option<String>) -> Result<()> {
+    http::serve(addr, token, |body: &str| {
+        match serde_json::from_str::<Value>(body) {
+            Ok(request) => {
+                dispatch_value(&request).and_then(|response| serde_json::to_string(&response).ok())
+            }
+            Err(err) => Some(
+                serde_json::to_string(&serde_json::json!({
+                    "jsonrpc": "2.0",
+                    "id": Value::Null,
+                    "error": {"code": -32700, "message": format!("Parse error: {err}")}
+                }))
+                .unwrap_or_default(),
+            ),
+        }
+    })
+    .map_err(Into::into)
+}
+
+fn dispatch_value(request: &Value) -> Option<Response> {
+    let request: Request = match serde_json::from_value(request.clone()) {
+        Ok(request) => request,
+        Err(error) => {
+            return Some(Response::error(None, -32700, error.to_string()));
+        }
+    };
+    dispatch_request(request)
 }
 
 fn call_tool(id: Option<Value>, params: Option<Value>) -> Response {
