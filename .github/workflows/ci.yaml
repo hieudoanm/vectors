@@ -77,9 +77,9 @@ jobs:
         run: |
           mkdir -p dist
           case "${{ matrix.os }}" in
-            ubuntu-latest) mv target/release/vectors dist/vectors-x86_64-unknown-linux-gnu ;;
-            macos-latest) mv target/release/vectors dist/vectors-aarch64-apple-darwin ;;
-            windows-latest) mv target/release/vectors.exe dist/vectors-x86_64-pc-windows-msvc.exe ;;
+            ubuntu-latest) mv target/release/vectors dist/cli-vectors-x86_64-unknown-linux-gnu ;;
+            macos-latest) mv target/release/vectors dist/cli-vectors-aarch64-apple-darwin ;;
+            windows-latest) mv target/release/vectors.exe dist/cli-vectors-x86_64-pc-windows-msvc.exe ;;
           esac
 
       - name: Upload CLI binary
@@ -90,9 +90,103 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  browser:
+    name: Browser extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6.1.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2.9.3
+
+      - name: Build vectors-core (wasm)
+        working-directory: crates/vectors-core
+        run: make build-wasm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Package extension
+        working-directory: packages/extensions/browser
+        run: make package
+
+      - name: Prefix artifact names
+        run: |
+          cd packages/extensions/browser/download
+          for f in *; do mv "$f" "browser-extension-$f"; done
+
+      - name: Upload extension artifacts
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: vectors-browser
+          path: packages/extensions/browser/download/*
+          if-no-files-found: error
+          retention-days: 7
+
+  vscode:
+    name: VS Code extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6.1.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2.9.3
+
+      - name: Build vectors-core (wasm)
+        working-directory: crates/vectors-core
+        run: make build-wasm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Package extension
+        working-directory: packages/extensions/vscode
+        run: pnpm package
+
+      - name: Prefix artifact name
+        run: mv packages/extensions/vscode/build/vectors-vscode.vsix packages/extensions/vscode/build/vscode-extension-vectors.vsix
+
+      - name: Upload extension artifact
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: vectors-vscode
+          path: packages/extensions/vscode/build/*.vsix
+          if-no-files-found: error
+          retention-days: 7
+
   release:
     name: Release
-    needs: [cli-build]
+    needs: [cli-build, browser, vscode]
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
@@ -105,7 +199,7 @@ jobs:
         uses: actions/download-artifact@v8.0.2
         with:
           path: dist
-          pattern: vectors-cli-*
+          pattern: vectors-*
           merge-multiple: true
 
       - name: Delete existing latest release
@@ -141,7 +235,7 @@ jobs:
         uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable

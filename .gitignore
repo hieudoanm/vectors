@@ -5,3 +5,6 @@ crates/target/
 
 # macOS
 .DS_Store
+
+# browser extension wasm bundle (generated)
+packages/extensions/browser/pkg/

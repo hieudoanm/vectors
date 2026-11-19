@@ -1,0 +1,38 @@
+{
+  "name": "@vectors/browser",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Browser extension: right-click an image, convert to SVG with the vectors wasm tracer",
+  "scripts": {
+    "sync": "make sync",
+    "build:wasm": "make build-wasm",
+    "build": "make build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --cache --write .",
+    "format:check": "prettier --cache --check .",
+    "clean": "rimraf dist pkg",
+    "package": "make package"
+  },
+  "dependencies": {
+    "@vectors/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/chrome": "0.3.7",
+    "@vitest/coverage-v8": "5.1.1",
+    "eslint": "10.15.0",
+    "globals": "17.14.0",
+    "jsdom": "30.1.3",
+    "prettier": "3.10.1",
+    "prettier-plugin-tailwindcss": "0.8.1",
+    "rimraf": "6.1.4",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0",
+    "vitest": "5.1.1",
+    "web-ext": "10.8.0"
+  }
+}

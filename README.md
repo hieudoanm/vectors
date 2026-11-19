@@ -1,9 +1,8 @@
 # vectors
 
-[![CI](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml?branch=master)  [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/hieudoanm/vectors/actions/workflows/ci.yaml?branch=master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Topics: `svg`, `vectorization`, `rust`, `cli`, `wasm`, `mcp`
-
 
 ![vectors — turn PNG and JPEG images into clean SVG paths](assets/branding/images/og.png)
 
@@ -122,8 +121,25 @@ cargo build --release
 ```
 
 The release binary lands at `crates/target/release/vectors` (the workspace target). A prebuilt `vectors`
-binary is also attached to the rolling [`vectors-latest`](https://github.com/hieudoanm/vectors/releases/tag/vectors-latest)
-release; `crates/vectors-cli/scripts/install.sh` downloads it.
+binary is also attached to the rolling [`latest`](https://github.com/hieudoanm/vectors/releases/tag/latest)
+release — install it with `scripts/install.sh` (or `scripts/install-local.sh` to build from source):
+
+```sh
+./scripts/install.sh            # CLI binary (default)
+./scripts/install.sh --firefox  # Firefox extension (.xpi)
+./scripts/install.sh --chrome   # Chrome/Edge extension (.zip, unpacked)
+./scripts/install.sh --vscode   # VS Code extension (.vsix)
+```
+
+### Browser & editor extensions
+
+The same wasm tracer ships as a [browser extension](packages/extensions/browser/README.md)
+(right-click a PNG/JPEG → **Convert to SVG**) for Firefox (MV2 `.xpi`) and
+Chrome/Edge (MV3 `.zip`), and as a [VS Code extension](packages/extensions/vscode/README.md)
+(right-click an image in the Explorer → **Convert Image to SVG**). Packages are
+attached to the `latest` release as `browser-extension-*` and
+`vscode-extension-*` assets — see [RELEASE.md](RELEASE.md) for direct download
+links.
 
 ### Convert your first image
 
@@ -241,12 +257,14 @@ cargo run --release --features eval -- sweep tests/golden/images colors 2 4 8 16
 
 ## Crates and Packages
 
-| Path                  | What it is                                                                                                                                          |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `crates/vectors-core` | Core Rust library: pipeline, SVG serializer, SVG → PNG renderer. Builds for `wasm32-unknown-unknown`.                                               |
-| `crates/vectors-cli`  | The `vectors` binary and its surfaces: clap parsing, flag mapping, file I/O, HTTP server, MCP server, debug artefacts, and the measurement harness. |
-| `packages/landing`    | Next.js landing page + in-browser converter (tracer via `@vectors/core` wasm); static export deployed to GitHub Pages.                              |
-| `docs/`               | Architecture, roadmap, packaging, and design notes.                                                                                                 |
+| Path                          | What it is                                                                                                                                          |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `crates/vectors-core`         | Core Rust library: pipeline, SVG serializer, SVG → PNG renderer. Builds for `wasm32-unknown-unknown`.                                               |
+| `crates/vectors-cli`          | The `vectors` binary and its surfaces: clap parsing, flag mapping, file I/O, HTTP server, MCP server, debug artefacts, and the measurement harness. |
+| `packages/landing`            | Next.js landing page + in-browser converter (tracer via `@vectors/core` wasm); static export deployed to GitHub Pages.                              |
+| `packages/extensions/browser` | Manifest V3 extension: right-click a PNG/JPEG, trace it to SVG with the same wasm build, download the result.                                       |
+| `packages/extensions/vscode`  | VS Code extension: **Vectors: Convert Image to SVG** command traces a PNG/JPEG to SVG with the same wasm build.                                     |
+| `docs/`                       | Architecture, roadmap, packaging, and design notes.                                                                                                 |
 
 The Rust crates share a Cargo workspace rooted at `crates/`; run `cargo` commands
 from `crates/` to build or test the whole workspace. Each crate and package has
@@ -283,6 +301,8 @@ Contributions, bug reports, and feature suggestions are welcome.
 - [README for the module](crates/vectors-core/README.md) — library API and feature flags
 - [README for the CLI](crates/vectors-cli/README.md) — flags, server, MCP, and the measurement harness
 - [README for the landing page](packages/landing/README.md) — Next.js development
+- [README for the browser extension](packages/extensions/browser/README.md) — MV3, offscreen wasm tracing
+- [README for the VS Code extension](packages/extensions/vscode/README.md) — command-palette image → SVG
 - [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md)
 
 Before opening a pull request, run the crate's or package's `make lint`,
@@ -299,7 +319,6 @@ default and `--features eval` test suites must stay green.
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
 
 ### Streamable HTTP
 

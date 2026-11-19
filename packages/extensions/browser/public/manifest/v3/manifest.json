@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Vectors — Image to SVG",
+  "version": "0.0.1",
+  "description": "Right-click any PNG or JPEG and convert it to SVG with the vectors tracer — fully offline.",
+  "permissions": ["contextMenus", "offscreen", "downloads", "notifications"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "icons": {
+    "16": "icons/16x16.png",
+    "32": "icons/32x32.png",
+    "48": "icons/48x48.png",
+    "96": "icons/96x96.png",
+    "128": "icons/128x128.png"
+  },
+  "author": "Hieu Doan",
+  "homepage_url": "https://github.com/hieudoanm/vectors",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "vectors-extension@hieudoanm.github.io",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  }
+}
