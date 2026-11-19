@@ -129,17 +129,28 @@ release — install it with `scripts/install.sh` (or `scripts/install-local.sh` 
 ./scripts/install.sh --firefox  # Firefox extension (.xpi)
 ./scripts/install.sh --chrome   # Chrome/Edge extension (.zip, unpacked)
 ./scripts/install.sh --vscode   # VS Code extension (.vsix)
+./scripts/install.sh --zed      # Zed extension (.tar.gz, dev extension)
 ```
 
 ### Browser & editor extensions
 
-The same wasm tracer ships as a [browser extension](packages/extensions/browser/README.md)
-(right-click a PNG/JPEG → **Convert to SVG**) for Firefox (MV2 `.xpi`) and
-Chrome/Edge (MV3 `.zip`), and as a [VS Code extension](packages/extensions/vscode/README.md)
-(right-click an image in the Explorer → **Convert Image to SVG**). Packages are
-attached to the `latest` release as `browser-extension-*` and
-`vscode-extension-*` assets — see [RELEASE.md](RELEASE.md) for direct download
-links.
+The same tracer ships as editor and browser extensions:
+
+- [Browser extension](packages/extensions/browser/README.md) — right-click a
+  PNG/JPEG → **Convert to SVG**; Firefox (MV2
+  [`.xpi`](https://github.com/hieudoanm/vectors/releases/download/latest/extension-browser-vectors-v2.xpi))
+  and Chrome/Edge (MV3
+  [`.zip`](https://github.com/hieudoanm/vectors/releases/download/latest/extension-browser-vectors-v3.zip)).
+- [VS Code extension](packages/extensions/vscode/README.md) — right-click an
+  image in the Explorer → **Convert Image to SVG**
+  ([`.vsix`](https://github.com/hieudoanm/vectors/releases/download/latest/extension-vscode-vectors.vsix)).
+- [Zed extension](packages/extensions/zed/README.md) — `/vectors <image>`
+  slash command in the assistant panel
+  ([`.tar.gz`](https://github.com/hieudoanm/vectors/releases/download/latest/extension-zed-vectors.tar.gz)).
+
+Packages are attached to the `latest` release as `extension-browser-*`,
+`extension-vscode-*` and `extension-zed-*` assets — see
+[RELEASE.md](RELEASE.md) for all download links.
 
 ### Convert your first image
 
@@ -264,6 +275,7 @@ cargo run --release --features eval -- sweep tests/golden/images colors 2 4 8 16
 | `packages/landing`            | Next.js landing page + in-browser converter (tracer via `@vectors/core` wasm); static export deployed to GitHub Pages.                              |
 | `packages/extensions/browser` | Manifest V3 extension: right-click a PNG/JPEG, trace it to SVG with the same wasm build, download the result.                                       |
 | `packages/extensions/vscode`  | VS Code extension: **Vectors: Convert Image to SVG** command traces a PNG/JPEG to SVG with the same wasm build.                                     |
+| `packages/extensions/zed`     | Zed extension (Rust → `wasm32-wasip2`): `/vectors <image>` slash command drives the `vectors` CLI.                                                  |
 | `docs/`                       | Architecture, roadmap, packaging, and design notes.                                                                                                 |
 
 The Rust crates share a Cargo workspace rooted at `crates/`; run `cargo` commands
@@ -303,6 +315,7 @@ Contributions, bug reports, and feature suggestions are welcome.
 - [README for the landing page](packages/landing/README.md) — Next.js development
 - [README for the browser extension](packages/extensions/browser/README.md) — MV3, offscreen wasm tracing
 - [README for the VS Code extension](packages/extensions/vscode/README.md) — command-palette image → SVG
+- [README for the Zed extension](packages/extensions/zed/README.md) — `/vectors` slash command
 - [Architecture](docs/ARCHITECTURE.md) · [Roadmap](docs/ROADMAP.md)
 
 Before opening a pull request, run the crate's or package's `make lint`,

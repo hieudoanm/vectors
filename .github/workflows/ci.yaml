@@ -128,7 +128,7 @@ jobs:
       - name: Prefix artifact names
         run: |
           cd packages/extensions/browser/download
-          for f in *; do mv "$f" "browser-extension-$f"; done
+          for f in *; do mv "$f" "extension-browser-$f"; done
 
       - name: Upload extension artifacts
         uses: actions/upload-artifact@v7.0.2
@@ -174,7 +174,7 @@ jobs:
         run: pnpm package
 
       - name: Prefix artifact name
-        run: mv packages/extensions/vscode/build/vectors-vscode.vsix packages/extensions/vscode/build/vscode-extension-vectors.vsix
+        run: mv packages/extensions/vscode/build/vectors-vscode.vsix packages/extensions/vscode/build/extension-vscode-vectors.vsix
 
       - name: Upload extension artifact
         uses: actions/upload-artifact@v7.0.2
@@ -184,9 +184,38 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  extension-zed:
+    name: Extension - Zed Extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-wasip2
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2.9.3
+        with:
+          workspaces: packages/extensions/zed
+
+      - name: Package extension
+        working-directory: packages/extensions/zed
+        run: make package
+
+      - name: Upload extension artifact
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: vectors-zed
+          path: packages/extensions/zed/download/*
+          if-no-files-found: error
+          retention-days: 7
+
   release:
     name: Release
-    needs: [cli-build, extension-browser, extension-vscode]
+    needs: [cli-build, extension-browser, extension-vscode, extension-zed]
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:

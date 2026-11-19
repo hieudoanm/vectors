@@ -1,0 +1,12 @@
+id = "vectors"
+name = "Vectors"
+description = "Convert PNG/JPEG images to SVG with the vectors tracer"
+version = "0.0.1"
+schema_version = 1
+authors = ["Hieu Doan <hieu.doan.professional@gmail.com>"]
+repository = "https://github.com/hieudoanm/vectors"
+license = "MIT"
+
+[slash_commands.vectors]
+description = "Convert an image (png/jpg/jpeg) to SVG: /vectors <path>"
+requires_argument = true
