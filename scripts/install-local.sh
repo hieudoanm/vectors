@@ -5,6 +5,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CRATES_DIR="$REPO_ROOT/crates"
 BROWSER_DIR="$REPO_ROOT/packages/extensions/browser"
 VSCODE_DIR="$REPO_ROOT/packages/extensions/vscode"
+ZED_DIR="$REPO_ROOT/packages/extensions/zed"
 
 ts() { date '+%Y-%m-%dT%H:%M:%S%z'; }
 
@@ -15,15 +16,16 @@ die()   { error "$*"; exit 1; }
 
 usage() {
   cat <<'EOF'
-Usage: install-local.sh [--cli|--firefox|--chrome|--vscode] [DEST]
+Usage: install-local.sh [--cli|--firefox|--chrome|--vscode|--zed] [DEST]
 
   --cli       Build the vectors CLI from source and install it (default)
   --firefox   Build the MV2 extension and install vectors-v2.xpi for Firefox
   --chrome    Build the MV3 extension and unpack vectors-v3.zip for Chrome/Edge
   --vscode    Build the VS Code extension and install vectors-vscode.vsix
+  --zed       Build the Zed extension and unpack extension-zed-vectors.tar.gz
 
-DEST is the install path for --cli, the download directory for --firefox
-and --vscode, or the extension directory for --chrome.
+DEST is the install path for --cli, the download directory for --firefox,
+--vscode and --zed, or the extension directory for --chrome.
 EOF
   exit "${1:-0}"
 }
@@ -37,6 +39,7 @@ for arg in "$@"; do
     --firefox) MODE=firefox ;;
     --chrome)  MODE=chrome ;;
     --vscode)  MODE=vscode ;;
+    --zed)     MODE=zed ;;
     -h|--help) usage 0 ;;
     --*)       die "Unknown flag: $arg" ;;
     *)         [ -z "$DEST" ] && DEST="$arg" || die "Unexpected argument: $arg" ;;
@@ -183,9 +186,33 @@ EOF
   fi
 }
 
+install_zed() {
+  command -v cargo >/dev/null 2>&1 || die "cargo not found; install Rust from https://rustup.rs"
+  command -v make >/dev/null 2>&1 || die "make not found"
+  log "Building Zed extension (wasm32-wasip2 + tarball)"
+  (cd "$ZED_DIR" && make package)
+  local tarball="$ZED_DIR/download/extension-zed-vectors.tar.gz"
+  [ -f "$tarball" ] || die "Expected $tarball after make package"
+
+  local dir="$DEST"
+  [ -z "$dir" ] && dir="$HOME/Downloads"
+  mkdir -p "$dir/vectors-zed"
+  tar -xzf "$tarball" -C "$dir/vectors-zed"
+  log "Unpacked Zed extension to $dir/vectors-zed"
+  cat <<EOF
+
+Next steps (Zed):
+  1. Open the command palette → "zed: install extension"
+  2. Choose "Install Dev Extension"
+  3. Select: $dir/vectors-zed
+  Then use /vectors <image.png|jpg|jpeg> in the assistant panel.
+EOF
+}
+
 case "$MODE" in
   cli)     install_cli ;;
   firefox) install_firefox ;;
   chrome)  install_chrome ;;
   vscode)  install_vscode ;;
+  zed)     install_zed ;;
 esac

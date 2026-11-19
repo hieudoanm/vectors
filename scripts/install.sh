@@ -12,15 +12,16 @@ die()   { error "$*"; exit 1; }
 
 usage() {
   cat <<'EOF'
-Usage: install.sh [--cli|--firefox|--chrome|--vscode] [DEST]
+Usage: install.sh [--cli|--firefox|--chrome|--vscode|--zed] [DEST]
 
   --cli       Install the vectors CLI binary (default)
-  --firefox   Download the MV2 extension (browser-extension-vectors-v2.xpi) for Firefox
-  --chrome    Download and unpack the MV3 extension (browser-extension-vectors-v3.zip) for Chrome/Edge
-  --vscode    Download the VS Code extension (vscode-extension-vectors.vsix) and install it
+  --firefox   Download the MV2 extension (extension-browser-vectors-v2.xpi) for Firefox
+  --chrome    Download and unpack the MV3 extension (extension-browser-vectors-v3.zip) for Chrome/Edge
+  --vscode    Download the VS Code extension (extension-vscode-vectors.vsix) and install it
+  --zed       Download the Zed extension (extension-zed-vectors.tar.gz) and unpack it
 
-DEST is the install path for --cli, the download directory for --firefox
-and --vscode, or the extension directory for --chrome.
+DEST is the install path for --cli, the download directory for --firefox,
+--vscode and --zed, or the extension directory for --chrome.
 EOF
   exit "${1:-0}"
 }
@@ -34,6 +35,7 @@ for arg in "$@"; do
     --firefox) MODE=firefox ;;
     --chrome)  MODE=chrome ;;
     --vscode)  MODE=vscode ;;
+    --zed)     MODE=zed ;;
     -h|--help) usage 0 ;;
     --*)       die "Unknown flag: $arg" ;;
     *)         [ -z "$DEST" ] && DEST="$arg" || die "Unexpected argument: $arg" ;;
@@ -116,13 +118,13 @@ install_firefox() {
   local dir="$DEST"
   [ -z "$dir" ] && dir="$HOME/Downloads"
   mkdir -p "$dir"
-  download "$BASE_URL/browser-extension-vectors-v2.xpi" "$dir/browser-extension-vectors-v2.xpi"
+  download "$BASE_URL/extension-browser-vectors-v2.xpi" "$dir/extension-browser-vectors-v2.xpi"
   cat <<EOF
 
 Next steps (Firefox):
   1. Open about:debugging#/runtime/this-firefox
   2. Click "Load Temporary Add-on…" and pick:
-       $dir/browser-extension-vectors-v2.xpi
+       $dir/extension-browser-vectors-v2.xpi
   For a permanent install, use web-ext or about:addons → gear → Install
   Add-on From File (requires a signed xpi for release Firefox).
 EOF
@@ -136,8 +138,8 @@ install_chrome() {
   local tmp
   tmp="$(mktemp -d)"
   trap 'rm -rf "$tmp"' EXIT
-  download "$BASE_URL/browser-extension-vectors-v3.zip" "$tmp/browser-extension-vectors-v3.zip"
-  unzip -q -o "$tmp/browser-extension-vectors-v3.zip" -d "$dir"
+  download "$BASE_URL/extension-browser-vectors-v3.zip" "$tmp/extension-browser-vectors-v3.zip"
+  unzip -q -o "$tmp/extension-browser-vectors-v3.zip" -d "$dir"
   log "Unpacked extension to $dir"
   cat <<EOF
 
@@ -154,8 +156,8 @@ install_vscode() {
   local dir="$DEST"
   [ -z "$dir" ] && dir="$HOME/Downloads"
   mkdir -p "$dir"
-  local vsix="$dir/vscode-extension-vectors.vsix"
-  download "$BASE_URL/vscode-extension-vectors.vsix" "$vsix"
+  local vsix="$dir/extension-vscode-vectors.vsix"
+  download "$BASE_URL/extension-vscode-vectors.vsix" "$vsix"
 
   if command -v code >/dev/null 2>&1; then
     log "Installing extension: code --install-extension $vsix"
@@ -176,9 +178,32 @@ EOF
   fi
 }
 
+# --- Zed (source tarball, dev extension) ------------------------------------
+install_zed() {
+  local dir="$DEST"
+  [ -z "$dir" ] && dir="$HOME/Downloads"
+  mkdir -p "$dir"
+  local tmp
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  download "$BASE_URL/extension-zed-vectors.tar.gz" "$tmp/extension-zed-vectors.tar.gz"
+  mkdir -p "$dir/vectors-zed"
+  tar -xzf "$tmp/extension-zed-vectors.tar.gz" -C "$dir/vectors-zed"
+  log "Unpacked Zed extension to $dir/vectors-zed"
+  cat <<EOF
+
+Next steps (Zed):
+  1. Open the command palette → "zed: install extension"
+  2. Choose "Install Dev Extension"
+  3. Select: $dir/vectors-zed
+  Then use /vectors <image.png|jpg|jpeg> in the assistant panel.
+EOF
+}
+
 case "$MODE" in
   cli)     install_cli ;;
   firefox) install_firefox ;;
   chrome)  install_chrome ;;
   vscode)  install_vscode ;;
+  zed)     install_zed ;;
 esac

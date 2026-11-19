@@ -30,20 +30,26 @@ const EXTENSIONS = [
   {
     title: 'Chrome / Edge',
     body: 'MV3 extension — right-click any PNG/JPEG on a page, get an SVG download.',
-    href: `${RELEASE_DL}/browser-extension-vectors-v3.zip`,
+    href: `${RELEASE_DL}/extension-browser-vectors-v3.zip`,
     label: 'Download .zip',
   },
   {
     title: 'Firefox',
     body: 'MV2 extension — same right-click → SVG flow for Firefox.',
-    href: `${RELEASE_DL}/browser-extension-vectors-v2.xpi`,
+    href: `${RELEASE_DL}/extension-browser-vectors-v2.xpi`,
     label: 'Download .xpi',
   },
   {
     title: 'VS Code',
     body: 'Right-click an image in the Explorer → Convert Image to SVG.',
-    href: `${RELEASE_DL}/vscode-extension-vectors.vsix`,
+    href: `${RELEASE_DL}/extension-vscode-vectors.vsix`,
     label: 'Download .vsix',
+  },
+  {
+    title: 'Zed',
+    body: '/vectors <image> slash command converts a worktree image to SVG.',
+    href: `${RELEASE_DL}/extension-zed-vectors.tar.gz`,
+    label: 'Download .tar.gz',
   },
 ];
 
@@ -391,9 +397,9 @@ const Home: FC = () => (
           </div>
           <p className="mt-8 text-center text-sm text-slate-600">
             The install script also takes <code>--firefox</code>,{' '}
-            <code>--chrome</code> and <code>--vscode</code> to fetch the
-            extensions above. The CLI is also available as an HTTP API (
-            <code>vectors serve</code>
+            <code>--chrome</code>, <code>--vscode</code> and <code>--zed</code>{' '}
+            to fetch the extensions above. The CLI is also available as an HTTP
+            API (<code>vectors serve</code>
             ), an MCP server (<code>vectors mcp serve</code>), and a Rust
             library —{' '}
             <a
