@@ -33,7 +33,7 @@
   "packageManager": "pnpm@12.21.0",
   "engines": {
     "node": "26.13.1",
-    "vscode": "^1.95.0"
+    "vscode": "1.147.0"
   },
   "main": "./dist/extension.js",
   "activationEvents": [
