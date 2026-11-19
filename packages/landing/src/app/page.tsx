@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import type { FC } from 'react';
 import { LuCpu, LuPuzzle } from 'react-icons/lu';
 import { Converter } from '@/components/Converter';
@@ -24,9 +22,30 @@ export const metadata: Metadata = {
 
 const GITHUB = 'https://github.com/hieudoanm/vectors';
 const RELEASES = `${GITHUB}/releases`;
-// next/image with unoptimized does not apply basePath — mirror next.config.ts.
-const LOGO =
-  process.env.NODE_ENV === 'production' ? '/vectors/logo.svg' : '/logo.svg';
+const RELEASE_DL = `${RELEASES}/download/latest`;
+const INSTALL_SH =
+  'https://raw.githubusercontent.com/hieudoanm/vectors/master/scripts/install.sh';
+
+const EXTENSIONS = [
+  {
+    title: 'Chrome / Edge',
+    body: 'MV3 extension — right-click any PNG/JPEG on a page, get an SVG download.',
+    href: `${RELEASE_DL}/browser-extension-vectors-v3.zip`,
+    label: 'Download .zip',
+  },
+  {
+    title: 'Firefox',
+    body: 'MV2 extension — same right-click → SVG flow for Firefox.',
+    href: `${RELEASE_DL}/browser-extension-vectors-v2.xpi`,
+    label: 'Download .xpi',
+  },
+  {
+    title: 'VS Code',
+    body: 'Right-click an image in the Explorer → Convert Image to SVG.',
+    href: `${RELEASE_DL}/vscode-extension-vectors.vsix`,
+    label: 'Download .vsix',
+  },
+];
 
 const PIPELINE = [
   'raster',
@@ -297,10 +316,10 @@ const Home: FC = () => (
                   { t: 'curl', c: 'cmd' },
                   { t: ' -fsSL ', c: 'flag' },
                   {
-                    t: `${RELEASES}/download/latest/vectors`,
+                    t: INSTALL_SH,
                     c: 'url',
                   },
-                  { t: ' | sh', c: 'dim' },
+                  { t: ' | bash', c: 'dim' },
                 ],
                 [
                   { t: 'installed vectors to ', c: 'dim' },
@@ -351,9 +370,32 @@ const Home: FC = () => (
               ]}
             />
           </div>
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {EXTENSIONS.map((ext) => (
+              <div
+                key={ext.title}
+                className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5">
+                <h3 className="text-base font-semibold text-slate-900">
+                  {ext.title}
+                </h3>
+                <p className="mt-1 flex-1 text-sm text-slate-600">{ext.body}</p>
+                <a
+                  href={ext.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary mt-3 text-sm font-medium">
+                  {ext.label} →
+                </a>
+              </div>
+            ))}
+          </div>
           <p className="mt-8 text-center text-sm text-slate-600">
-            Also available as an HTTP API (<code>vectors serve</code>), an MCP
-            server (<code>vectors mcp serve</code>), and a Rust library —{' '}
+            The install script also takes <code>--firefox</code>,{' '}
+            <code>--chrome</code> and <code>--vscode</code> to fetch the
+            extensions above. The CLI is also available as an HTTP API (
+            <code>vectors serve</code>
+            ), an MCP server (<code>vectors mcp serve</code>), and a Rust
+            library —{' '}
             <a
               href={`${GITHUB}#cli`}
               target="_blank"

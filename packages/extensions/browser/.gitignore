@@ -1,0 +1,6 @@
+pkg/
+dist/
+node_modules/
+.build/
+download/
+coverage/

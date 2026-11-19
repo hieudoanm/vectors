@@ -41,7 +41,6 @@ const search = (index: SearchEntry[], query: string): Result[] => {
   const results: Result[] = [];
   for (const entry of index) {
     const title = entry.title.toLowerCase();
-    const headings = entry.headings.map((h) => h.toLowerCase());
     const text = entry.text.toLowerCase();
     if (!terms.every((t) => title.includes(t) || text.includes(t))) continue;
 

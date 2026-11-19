@@ -1,0 +1,101 @@
+{
+  "name": "vectors-vscode",
+  "displayName": "Vectors",
+  "description": "Convert PNG/JPEG images to SVG with the vectors tracer",
+  "version": "0.0.1",
+  "private": true,
+  "publisher": "hieudoanm",
+  "license": "MIT",
+  "author": {
+    "name": "Hieu Doan",
+    "email": "hieu.doan.professional@gmail.com",
+    "url": "https://hieudoanm.github.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hieudoanm/vectors.git"
+  },
+  "homepage": "https://github.com/hieudoanm/vectors",
+  "bugs": {
+    "url": "https://github.com/hieudoanm/vectors/issues"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "svg",
+    "vector",
+    "image",
+    "trace",
+    "png",
+    "jpeg"
+  ],
+  "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": "26.13.1",
+    "vscode": "^1.95.0"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onCommand:vectors.convertToSvg"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "vectors.convertToSvg",
+        "title": "Convert Image to SVG",
+        "category": "Vectors"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "vectors.convertToSvg",
+          "when": "resourceExtname =~ /\\.(png|jpe?g)$/",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "vectors.convertToSvg",
+          "when": "resourceExtname =~ /\\.(png|jpe?g)$/",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "vectors.convertToSvg",
+          "when": "resourceExtname =~ /\\.(png|jpe?g)$/",
+          "group": "1_modification"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build:wasm": "make -C ../../../crates/vectors-core build-wasm",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --cache --write .",
+    "format:check": "prettier --cache --check .",
+    "package": "pnpm build && rimraf build && mkdir -p build && vsce package --no-dependencies --out build/vectors-vscode.vsix",
+    "clean": "rimraf dist build"
+  },
+  "dependencies": {
+    "@vectors/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.6.6",
+    "@types/vscode": "1.95.0",
+    "@vscode/vsce": "4.1.1",
+    "esbuild": "0.28.2",
+    "eslint": "10.15.0",
+    "globals": "17.14.0",
+    "prettier": "3.10.1",
+    "rimraf": "6.1.4",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0"
+  }
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-URL="https://github.com/hieudoanm/vectors/releases/download/latest/vectors"
+BASE_URL="https://github.com/hieudoanm/vectors/releases/download/latest"
 
 ts() { date '+%Y-%m-%dT%H:%M:%S%z'; }
 
@@ -10,6 +10,36 @@ warn()  { printf '[%s] [WARN ] %s\n' "$(ts)" "$*" >&2; }
 error() { printf '[%s] [ERROR] %s\n' "$(ts)" "$*" >&2; }
 die()   { error "$*"; exit 1; }
 
+usage() {
+  cat <<'EOF'
+Usage: install.sh [--cli|--firefox|--chrome|--vscode] [DEST]
+
+  --cli       Install the vectors CLI binary (default)
+  --firefox   Download the MV2 extension (browser-extension-vectors-v2.xpi) for Firefox
+  --chrome    Download and unpack the MV3 extension (browser-extension-vectors-v3.zip) for Chrome/Edge
+  --vscode    Download the VS Code extension (vscode-extension-vectors.vsix) and install it
+
+DEST is the install path for --cli, the download directory for --firefox
+and --vscode, or the extension directory for --chrome.
+EOF
+  exit "${1:-0}"
+}
+
+# --- Parse arguments -------------------------------------------------------
+MODE=cli
+DEST=""
+for arg in "$@"; do
+  case "$arg" in
+    --cli)     MODE=cli ;;
+    --firefox) MODE=firefox ;;
+    --chrome)  MODE=chrome ;;
+    --vscode)  MODE=vscode ;;
+    -h|--help) usage 0 ;;
+    --*)       die "Unknown flag: $arg" ;;
+    *)         [ -z "$DEST" ] && DEST="$arg" || die "Unexpected argument: $arg" ;;
+  esac
+done
+
 # --- Detect the OS ---------------------------------------------------------
 case "$(uname -s)" in
   Linux*)   OS=linux ;;
@@ -17,55 +47,138 @@ case "$(uname -s)" in
   MINGW*|MSYS*|CYGWIN*) OS=windows ;;
   *)        die "Unsupported OS: $(uname -s)" ;;
 esac
-log "Detected OS: $OS"
+ARCH="$(uname -m)"
+log "Detected OS: $OS ($ARCH), mode: $MODE"
 
-# --- Pick a writable install destination -----------------------------------
-# If the user passed an explicit path, trust it (after a sanity check).
-if [ "$#" -ge 1 ] && [ -n "${1:-}" ]; then
-  DEST="$1"
-  log "Using user-specified destination: $DEST"
-else
-  # Prefer a user-local bin directory so non-root installs just work.
-  DEST="$(command -v vectors 2>/dev/null || true)"
-  if [ -n "$DEST" ]; then
-    log "Found existing install at $DEST; will overwrite"
-  elif [ "$OS" = "macos" ] && [ -d "/usr/local/bin" ] && [ -w "/usr/local/bin" ]; then
-    DEST="/usr/local/bin/vectors"
-  elif [ "$OS" = "linux" ] && [ -d "$HOME/.local/bin" ]; then
-    mkdir -p "$HOME/.local/bin"
-    DEST="$HOME/.local/bin/vectors"
-  elif [ "$OS" = "linux" ] && [ -d "/usr/local/bin" ] && [ -w "/usr/local/bin" ]; then
-    DEST="/usr/local/bin/vectors"
-  elif [ "$OS" = "windows" ]; then
-    DEST="$HOME/bin/vectors.exe"
-    mkdir -p "$HOME/bin"
-  else
-    die "Could not find a writable install directory; pass one explicitly."
+download() { # url dest
+  log "Downloading $1"
+  curl -fsSL --retry 3 --retry-delay 2 "$1" -o "$2"
+  log "Downloaded $(wc -c < "$2" | tr -d ' ') bytes"
+}
+
+# --- CLI binary ------------------------------------------------------------
+install_cli() {
+  local asset
+  case "$OS/$ARCH" in
+    macos/arm64)  asset=cli-vectors-aarch64-apple-darwin ;;
+    macos/*)      die "No macOS x86_64 release asset; build from source with scripts/install-local.sh" ;;
+    linux/x86_64) asset=cli-vectors-x86_64-unknown-linux-gnu ;;
+    linux/*)      die "No linux/$ARCH release asset; build from source with scripts/install-local.sh" ;;
+    windows/*)    asset=cli-vectors-x86_64-pc-windows-msvc.exe ;;
+    *)            die "Unsupported platform: $OS/$ARCH" ;;
+  esac
+  local url="$BASE_URL/$asset"
+
+  # Pick a writable install destination.
+  local dest="$DEST"
+  if [ -z "$dest" ]; then
+    dest="$(command -v vectors 2>/dev/null || true)"
+    if [ -n "$dest" ]; then
+      log "Found existing install at $dest; will overwrite"
+    elif [ "$OS" = "macos" ] && [ -d "/usr/local/bin" ] && [ -w "/usr/local/bin" ]; then
+      dest="/usr/local/bin/vectors"
+    elif [ -d "$HOME/.local/bin" ]; then
+      mkdir -p "$HOME/.local/bin"
+      dest="$HOME/.local/bin/vectors"
+    elif [ "$OS" = "windows" ]; then
+      dest="$HOME/bin/vectors.exe"
+      mkdir -p "$HOME/bin"
+    else
+      die "Could not find a writable install directory; pass one explicitly."
+    fi
   fi
-fi
 
-DEST_DIR="$(dirname "$DEST")"
-log "Preparing destination directory: $DEST_DIR"
-mkdir -p "$DEST_DIR"
-[ -w "$DEST_DIR" ] || die "$DEST_DIR is not writable"
+  local dest_dir
+  dest_dir="$(dirname "$dest")"
+  mkdir -p "$dest_dir"
+  [ -w "$dest_dir" ] || die "$dest_dir is not writable"
 
-# --- Download --------------------------------------------------------------
-log "Downloading $URL"
-tmp="$(mktemp)"
-trap 'rm -f "$tmp"' EXIT
-curl -fsSL --retry 3 --retry-delay 2 "$URL" -o "$tmp"
-log "Downloaded $(wc -c < "$tmp") bytes"
+  local tmp
+  tmp="$(mktemp)"
+  trap 'rm -f "$tmp"' EXIT
+  download "$url" "$tmp"
 
-# --- Install ---------------------------------------------------------------
-log "Installing to $DEST"
-mv "$tmp" "$DEST"
-chmod +x "$DEST"
-log "Installed vectors to $DEST"
+  log "Installing to $dest"
+  mv "$tmp" "$dest"
+  chmod +x "$dest" 2>/dev/null || true
+  log "Installed vectors to $dest"
 
-# --- Verify ----------------------------------------------------------------
-if command -v "$DEST" >/dev/null 2>&1; then
-  log "Verifying install: $DEST --version"
-  "$DEST" --version || true
-else
-  log "Note: $DEST is not on PATH yet. Add $DEST_DIR to your shell's PATH."
-fi
+  if command -v "$dest" >/dev/null 2>&1; then
+    log "Verifying install: $dest --version"
+    "$dest" --version || true
+  else
+    log "Note: $dest is not on PATH yet. Add $dest_dir to your shell's PATH."
+  fi
+}
+
+# --- Firefox (MV2 .xpi) ----------------------------------------------------
+install_firefox() {
+  local dir="$DEST"
+  [ -z "$dir" ] && dir="$HOME/Downloads"
+  mkdir -p "$dir"
+  download "$BASE_URL/browser-extension-vectors-v2.xpi" "$dir/browser-extension-vectors-v2.xpi"
+  cat <<EOF
+
+Next steps (Firefox):
+  1. Open about:debugging#/runtime/this-firefox
+  2. Click "Load Temporary Add-on…" and pick:
+       $dir/browser-extension-vectors-v2.xpi
+  For a permanent install, use web-ext or about:addons → gear → Install
+  Add-on From File (requires a signed xpi for release Firefox).
+EOF
+}
+
+# --- Chrome/Edge (MV3 .zip, unpacked) --------------------------------------
+install_chrome() {
+  local dir="$DEST"
+  [ -z "$dir" ] && dir="$HOME/.local/share/vectors/chrome-extension"
+  mkdir -p "$dir"
+  local tmp
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  download "$BASE_URL/browser-extension-vectors-v3.zip" "$tmp/browser-extension-vectors-v3.zip"
+  unzip -q -o "$tmp/browser-extension-vectors-v3.zip" -d "$dir"
+  log "Unpacked extension to $dir"
+  cat <<EOF
+
+Next steps (Chrome/Edge):
+  1. Open chrome://extensions (or edge://extensions)
+  2. Enable "Developer mode"
+  3. Click "Load unpacked" and pick:
+       $dir
+EOF
+}
+
+# --- VS Code (.vsix) --------------------------------------------------------
+install_vscode() {
+  local dir="$DEST"
+  [ -z "$dir" ] && dir="$HOME/Downloads"
+  mkdir -p "$dir"
+  local vsix="$dir/vscode-extension-vectors.vsix"
+  download "$BASE_URL/vscode-extension-vectors.vsix" "$vsix"
+
+  if command -v code >/dev/null 2>&1; then
+    log "Installing extension: code --install-extension $vsix"
+    if code --install-extension "$vsix"; then
+      log "Installed vectors-vscode"
+    else
+      warn "code --install-extension failed; install $vsix manually"
+    fi
+  else
+    cat <<EOF
+
+Next steps (VS Code):
+  The 'code' CLI was not found. Install the extension manually:
+  1. Open VS Code → Extensions view (Cmd+Shift+X)
+  2. Click "…" → "Install from VSIX…"
+  3. Pick: $vsix
+EOF
+  fi
+}
+
+case "$MODE" in
+  cli)     install_cli ;;
+  firefox) install_firefox ;;
+  chrome)  install_chrome ;;
+  vscode)  install_vscode ;;
+esac
