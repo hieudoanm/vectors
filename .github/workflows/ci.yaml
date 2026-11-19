@@ -90,8 +90,8 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  browser:
-    name: Browser extension
+  extension-browser:
+    name: Extension - Browser Extension
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -138,8 +138,8 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  vscode:
-    name: VS Code extension
+  extension-vscode:
+    name: Extension - VS Code Extension
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -186,7 +186,7 @@ jobs:
 
   release:
     name: Release
-    needs: [cli-build, browser, vscode]
+    needs: [cli-build, extension-browser, extension-vscode]
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:

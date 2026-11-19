@@ -10,3 +10,5 @@ minimumReleaseAge: 0
 allowBuilds:
   sharp: false
   unrs-resolver: false
+  esbuild: true
+  '@vscode/vsce-sign': true
