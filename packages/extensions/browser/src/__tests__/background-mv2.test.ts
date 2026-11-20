@@ -29,8 +29,27 @@ describe('background-mv2', () => {
     expect(chromeMock.contextMenus.create).toHaveBeenCalledWith({
       id: 'vectors-convert-to-svg',
       title: 'Convert to SVG (vectors)',
-      contexts: ['image'],
+      contexts: ['image', 'page'],
     });
+  });
+
+  it('uses the image reported by the content script when srcUrl is absent', async () => {
+    convert.mockResolvedValue({ ok: true, svg: '<svg/>' });
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+    await fire(
+      'runtimeMessage',
+      { type: 'vectors:image-context', srcUrl: 'https://x.com/wrapped.png' },
+      { tab: { id: 5 } },
+      vi.fn()
+    );
+
+    await fire(
+      'menuClicked',
+      { menuItemId: 'vectors-convert-to-svg' },
+      { id: 5, url: 'https://x.com/' }
+    );
+
+    expect(convert).toHaveBeenCalledWith('https://x.com/wrapped.png');
   });
 
   it('converts and downloads via an anchor click', async () => {

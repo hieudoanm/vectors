@@ -59,8 +59,32 @@ describe('convertImage', () => {
   it('rejects non PNG/JPEG payloads', async () => {
     stubFetch('plain text');
     const res = await convertImage('https://x.com/file.txt');
-    expect(res).toEqual({ ok: false, error: 'Not a PNG or JPEG image.' });
+    expect(res).toEqual({ ok: false, error: 'Unsupported image format.' });
     expect(fromBytes).not.toHaveBeenCalled();
+  });
+
+  it('falls back to canvas decode for other image formats', async () => {
+    stubFetch('fake-heic-bytes');
+    const close = vi.fn();
+    vi.stubGlobal(
+      'createImageBitmap',
+      vi.fn(async () => ({ width: 8, height: 8, close }))
+    );
+    vi.stubGlobal('document', {
+      createElement: () => ({
+        width: 0,
+        height: 0,
+        getContext: () => ({ drawImage: vi.fn() }),
+        toBlob: (cb: (b: Blob | null) => void) => cb(new Blob([PNG])),
+      }),
+    });
+
+    const res = await convertImage('https://x.com/pic.heic');
+    expect(res.ok).toBe(true);
+    expect(res.svg).toContain('<svg');
+    expect(close).toHaveBeenCalledOnce();
+    // Traced bytes are the canvas-produced PNG, not the original payload.
+    expect(fromBytes).toHaveBeenCalledWith(PNG);
   });
 
   it('traces a PNG into svg and frees the raster', async () => {
