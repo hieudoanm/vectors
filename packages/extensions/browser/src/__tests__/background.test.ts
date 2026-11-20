@@ -21,8 +21,82 @@ describe('background (MV3)', () => {
     expect(chromeMock.contextMenus.create).toHaveBeenCalledWith({
       id: 'vectors-convert-to-svg',
       title: 'Convert to SVG (vectors)',
-      contexts: ['image'],
+      contexts: ['image', 'page'],
     });
+  });
+
+  it('uses the image reported by the content script when srcUrl is absent', async () => {
+    sendMessage.mockResolvedValue({ ok: true, svg: '<svg/>' });
+    const respond = vi.fn();
+    await fire(
+      'runtimeMessage',
+      { type: 'vectors:image-context', srcUrl: 'https://x.com/wrapped.png' },
+      { tab: { id: 7 } },
+      respond
+    );
+    expect(respond).toHaveBeenCalledWith({ ok: true });
+
+    await fire(
+      'menuClicked',
+      { menuItemId: 'vectors-convert-to-svg' },
+      { id: 7, url: 'https://x.com/page/' }
+    );
+
+    expect(sendMessage).toHaveBeenCalledWith({
+      type: 'vectors:convert',
+      srcUrl: 'https://x.com/wrapped.png',
+    });
+    expect(download).toHaveBeenCalledOnce();
+  });
+
+  it('prefers info.srcUrl over the stored image and ignores other tabs', async () => {
+    sendMessage.mockResolvedValue({ ok: true, svg: '<svg/>' });
+    await fire(
+      'runtimeMessage',
+      { type: 'vectors:image-context', srcUrl: 'https://x.com/stored.png' },
+      { tab: { id: 9 } },
+      vi.fn()
+    );
+
+    await fire(
+      'menuClicked',
+      {
+        menuItemId: 'vectors-convert-to-svg',
+        srcUrl: 'https://x.com/direct.png',
+      },
+      { id: 9, url: 'https://x.com/' }
+    );
+    expect(sendMessage).toHaveBeenLastCalledWith({
+      type: 'vectors:convert',
+      srcUrl: 'https://x.com/direct.png',
+    });
+
+    // A different tab has no stored image → nothing happens.
+    sendMessage.mockClear();
+    await fire(
+      'menuClicked',
+      { menuItemId: 'vectors-convert-to-svg' },
+      { id: 10, url: 'https://x.com/' }
+    );
+    expect(sendMessage).not.toHaveBeenCalled();
+  });
+
+  it('clears the stored image on null srcUrl and on tab removal', async () => {
+    sendMessage.mockResolvedValue({ ok: true, svg: '<svg/>' });
+    await fire(
+      'runtimeMessage',
+      { type: 'vectors:image-context', srcUrl: 'https://x.com/a.png' },
+      { tab: { id: 3 } },
+      vi.fn()
+    );
+    await fire('tabRemoved', 3);
+
+    await fire(
+      'menuClicked',
+      { menuItemId: 'vectors-convert-to-svg' },
+      { id: 3, url: 'https://x.com/' }
+    );
+    expect(sendMessage).not.toHaveBeenCalled();
   });
 
   it('converts and downloads the svg on menu click', async () => {

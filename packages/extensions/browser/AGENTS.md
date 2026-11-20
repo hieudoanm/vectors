@@ -12,6 +12,8 @@ Chrome).
 | `src/background.ts`          | MV3 service worker: context menu, offscreen routing, download |
 | `src/background-mv2.ts`      | MV2 background page: same flow, downloads via anchor click    |
 | `src/offscreen.ts`           | MV3 offscreen document message listener                       |
+| `src/content.ts`             | Content script: reports nearest image on `contextmenu`        |
+| `src/dom.ts`                 | `findImageSrc` — BFS parent/child/sibling image search (≤3)   |
 | `src/convert.ts`             | Shared fetch + `WasmRaster` + `trace` path                    |
 | `src/util.ts`                | `ConvertResponse`, `fileNameFor`                              |
 | `public/manifest/v2          | v3/`                                                          | Per-variant manifests |
@@ -42,6 +44,10 @@ pnpm run format  # prettier
   rewrites the specifier to `./pkg/vectors.js` in every emitted file because the
   extension has no bundler — keep that perl line in the Makefile if the import
   path changes.
+- The menu shows on `image` + `page` contexts. When the click misses the `<img>`
+  itself, `content.ts` finds the nearest image within 4 DOM hops
+  (parent/child/sibling BFS in `dom.ts`) and the background maps it per tab;
+  `info.srcUrl` still wins when present.
 - MV2 has no service worker/offscreen API: `background-mv2.ts` runs inside a
   persistent background _page_ and downloads via `URL.createObjectURL` +
   `<a download>`; MV3 keeps the service-worker → offscreen-document split.

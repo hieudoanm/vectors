@@ -32,14 +32,14 @@ build: sync typecheck
 	perl -pi -e "s|['\"]\@vectors/core['\"]|'./pkg/vectors.js'|g" $(BUILD)/*.js
 	# --- MV3 ---
 	mkdir -p $(V3)/pkg
-	cp $(BUILD)/background.js $(BUILD)/offscreen.js $(BUILD)/convert.js $(BUILD)/util.js $(BUILD)/log.js $(V3)/
+	cp $(BUILD)/background.js $(BUILD)/offscreen.js $(BUILD)/content.js $(BUILD)/convert.js $(BUILD)/util.js $(BUILD)/log.js $(V3)/
 	cp public/offscreen.html $(V3)/
 	cp public/manifest/v3/manifest.json $(V3)/manifest.json
 	cp -R public/icons $(V3)/
 	cp $(WASM)/vectors.js $(WASM)/vectors_bg.wasm $(V3)/pkg/
 	# --- MV2 ---
 	mkdir -p $(V2)/pkg
-	cp $(BUILD)/background-mv2.js $(BUILD)/convert.js $(BUILD)/util.js $(BUILD)/log.js $(V2)/
+	cp $(BUILD)/background-mv2.js $(BUILD)/content.js $(BUILD)/convert.js $(BUILD)/util.js $(BUILD)/log.js $(V2)/
 	cp public/background-mv2.html $(V2)/
 	cp public/manifest/v2/manifest.json $(V2)/manifest.json
 	cp -R public/icons $(V2)/

@@ -37,6 +37,9 @@ export const chromeMock = {
     create: vi.fn(),
     onClicked: on('menuClicked'),
   },
+  tabs: {
+    onRemoved: on('tabRemoved'),
+  },
   offscreen: {
     hasDocument: vi.fn(async () => false),
     createDocument: vi.fn(async () => undefined),

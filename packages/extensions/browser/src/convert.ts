@@ -20,6 +20,40 @@ const isPng = (b: Uint8Array): boolean =>
   b[2] === 0x4e &&
   b[3] === 0x47;
 
+// Fallback for formats the tracer can't read directly (HEIC, WebP, AVIF,
+// GIF…): decode through the browser's own image pipeline and re-encode as
+// PNG. Runs in the offscreen document / MV2 background page, both of which
+// have DOM + canvas.
+const decodeViaCanvas = async (
+  bytes: Uint8Array<ArrayBuffer>
+): Promise<Uint8Array<ArrayBuffer> | null> => {
+  if (
+    typeof createImageBitmap !== 'function' ||
+    typeof document === 'undefined'
+  ) {
+    return null;
+  }
+  try {
+    const bitmap = await createImageBitmap(new Blob([bytes]));
+    const canvas = document.createElement('canvas');
+    canvas.width = bitmap.width;
+    canvas.height = bitmap.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      bitmap.close();
+      return null;
+    }
+    ctx.drawImage(bitmap, 0, 0);
+    bitmap.close();
+    const png = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, 'image/png')
+    );
+    return png ? new Uint8Array(await png.arrayBuffer()) : null;
+  } catch {
+    return null;
+  }
+};
+
 export const convertImage = async (
   srcUrl: string
 ): Promise<ConvertResponse> => {
@@ -37,13 +71,22 @@ export const convertImage = async (
     log.warn('fetch failed', res.status, srcUrl);
     return { ok: false, error: `Fetch failed: HTTP ${res.status}` };
   }
-  const bytes = new Uint8Array(await res.arrayBuffer());
+  let bytes = new Uint8Array(await res.arrayBuffer());
   log.info(`fetched ${(bytes.length / 1024).toFixed(1)} KB`);
 
-  const kind = isPng(bytes) ? 'png' : isJpeg(bytes) ? 'jpeg' : null;
+  let kind = isPng(bytes) ? 'png' : isJpeg(bytes) ? 'jpeg' : null;
+  if (!kind) {
+    log.debug('not png/jpeg — trying canvas decode fallback');
+    const decoded = await decodeViaCanvas(bytes);
+    if (decoded) {
+      bytes = decoded;
+      kind = 'png';
+      log.info(`canvas-decoded → ${(bytes.length / 1024).toFixed(1)} KB PNG`);
+    }
+  }
   if (!kind) {
     log.warn('unsupported image type', srcUrl);
-    return { ok: false, error: 'Not a PNG or JPEG image.' };
+    return { ok: false, error: 'Unsupported image format.' };
   }
   log.debug(`format: ${kind}`);
 
