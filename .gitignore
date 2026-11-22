@@ -8,3 +8,4 @@ crates/target/
 
 # browser extension wasm bundle (generated)
 packages/extensions/browser/pkg/
+.tracers-cache/
