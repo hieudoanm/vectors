@@ -764,6 +764,9 @@ digraph tracers {
   "external:typescript:marked.parse" [label="parse\nexternal_symbol", color="lightgray"];
   "external:typescript:next.NextConfig" [label="NextConfig\nexternal_symbol", color="lightgray"];
   "external:typescript:next.push" [label="push\nexternal_symbol", color="lightgray"];
+  "external:typescript:node:fs.readFileSync" [label="readFileSync\nexternal_symbol", color="lightgray"];
+  "external:typescript:node:path.basename" [label="basename\nexternal_symbol", color="lightgray"];
+  "external:typescript:node:path.join" [label="join\nexternal_symbol", color="lightgray"];
   "external:typescript:process.cwd" [label="cwd\nexternal_symbol", color="lightgray"];
   "external:typescript:test::before" [label="before\nexternal_symbol", color="lightgray"];
   "external:typescript:vi.clearAllMocks" [label="clearAllMocks\nexternal_symbol", color="lightgray"];
@@ -2954,7 +2957,6 @@ digraph tracers {
   "unresolved:rust:elapsed" [label="elapsed\nunknown", color="black"];
   "unresolved:rust:ellipse_distance" [label="ellipse_distance\nunknown", color="black"];
   "unresolved:rust:end" [label="end\nunknown", color="black"];
-  "unresolved:rust:ensure_traceable" [label="ensure_traceable\nunknown", color="black"];
   "unresolved:rust:eq_ignore_ascii_case" [label="eq_ignore_ascii_case\nunknown", color="black"];
   "unresolved:rust:exp" [label="exp\nunknown", color="black"];
   "unresolved:rust:extend_from_slice" [label="extend_from_slice\nunknown", color="black"];
@@ -2983,6 +2985,7 @@ digraph tracers {
   "unresolved:rust:is_none_or" [label="is_none_or\nunknown", color="black"];
   "unresolved:rust:is_some_and" [label="is_some_and\nunknown", color="black"];
   "unresolved:rust:iter_mut" [label="iter_mut\nunknown", color="black"];
+  "unresolved:rust:label" [label="label\nunknown", color="black"];
   "unresolved:rust:layer" [label="layer\nunknown", color="black"];
   "unresolved:rust:length" [label="length\nunknown", color="black"];
   "unresolved:rust:lerp" [label="lerp\nunknown", color="black"];
@@ -3091,7 +3094,6 @@ digraph tracers {
   "unresolved:typescript:append" [label="append\nunknown", color="black"];
   "unresolved:typescript:appendChild" [label="appendChild\nunknown", color="black"];
   "unresolved:typescript:arrayBuffer" [label="arrayBuffer\nunknown", color="black"];
-  "unresolved:typescript:basename" [label="basename\nunknown", color="black"];
   "unresolved:typescript:cb" [label="cb\nunknown", color="black"];
   "unresolved:typescript:click" [label="click\nunknown", color="black"];
   "unresolved:typescript:close" [label="close\nunknown", color="black"];
@@ -3124,7 +3126,6 @@ digraph tracers {
   "unresolved:typescript:mockReturnValue" [label="mockReturnValue\nunknown", color="black"];
   "unresolved:typescript:readAsDataURL" [label="readAsDataURL\nunknown", color="black"];
   "unresolved:typescript:readFile" [label="readFile\nunknown", color="black"];
-  "unresolved:typescript:readFileSync" [label="readFileSync\nunknown", color="black"];
   "unresolved:typescript:registerCommand" [label="registerCommand\nunknown", color="black"];
   "unresolved:typescript:remove" [label="remove\nunknown", color="black"];
   "unresolved:typescript:removeChild" [label="removeChild\nunknown", color="black"];
@@ -9750,8 +9751,8 @@ digraph tracers {
   "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "external:rust:std::println" [label="calls", style="bold"];
   "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "function:crates/vectors-cli/src/bin/vectors.rs::load" [label="calls", style="bold"];
   "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "method:crates/vectors-cli/src/options.rs::TracingArgs.to_config" [label="calls", style="bold"];
-  "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "module:crates/vectors-core/src/preprocess/mod.rs::label" [label="calls", style="bold"];
   "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "unresolved:rust:color_mode" [label="calls", style="dotted"];
+  "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "unresolved:rust:label" [label="calls", style="dotted"];
   "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "external:rust:std::Path" [label="uses_type", style="dotted"];
   "function:crates/vectors-cli/src/bin/vectors.rs::info" -> "struct:crates/vectors-cli/src/options.rs::TracingArgs" [label="uses_type", style="dotted"];
   "function:crates/vectors-cli/src/bin/vectors.rs::input_of" -> "constant:crates/vectors-core/src/core/error.rs::Error.Config" [label="calls", style="bold"];
@@ -11689,10 +11690,10 @@ digraph tracers {
   "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "external:rust:vectors.trace_verbose" [label="calls", style="bold"];
   "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "external:rust:vectors::trace_verbose.expect" [label="calls", style="bold"];
   "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "function:crates/vectors-cli/tests/artifacts.rs::two_colors" [label="calls", style="bold"];
+  "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "function:crates/vectors-core/src/preprocess/label.rs::ensure_traceable" [label="calls", style="bold"];
   "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "method:crates/vectors-cli/src/debug.rs::DebugWriter.new" [label="calls", style="bold"];
   "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "method:crates/vectors-core/src/core/raster.rs::Raster.load" [label="calls", style="bold"];
   "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "method:crates/vectors-core/src/pipeline/config.rs::TraceConfig.default" [label="calls", style="bold"];
-  "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "unresolved:rust:ensure_traceable" [label="calls", style="dotted"];
   "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size" -> "unresolved:rust:write_curves" [label="calls", style="dotted"];
   "function:crates/vectors-cli/tests/artifacts.rs::debug_writer_emits_every_stage" -> "external:rust:TempDir.new" [label="calls", style="bold"];
   "function:crates/vectors-cli/tests/artifacts.rs::debug_writer_emits_every_stage" -> "external:rust:std::assert" [label="calls", style="bold"];
@@ -13427,12 +13428,12 @@ digraph tracers {
   "function:packages/extensions/vscode/src/extension.ts::activate" -> "unresolved:typescript:showErrorMessage" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::activate" -> "unresolved:typescript:ExtensionContext" [label="uses_type", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "external:typescript:TextEncoder" [label="calls", style="bold"];
+  "function:packages/extensions/vscode/src/extension.ts::convert" -> "external:typescript:node:path.basename" [label="calls", style="bold"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "external:unresolved:@vectors/core.WasmTraceConfig" [label="calls", style="bold"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "external:unresolved:@vectors/core.trace" [label="calls", style="bold"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "function:packages/extensions/vscode/src/extension.ts::ensureWasm" [label="calls", style="bold"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "function:packages/extensions/vscode/src/extension.ts::fileExists" [label="calls", style="bold"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "function:packages/extensions/vscode/src/extension.ts::svgTargetFor" [label="calls", style="bold"];
-  "function:packages/extensions/vscode/src/extension.ts::convert" -> "unresolved:typescript:basename" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "unresolved:typescript:encode" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "unresolved:typescript:free" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "unresolved:typescript:from_bytes" [label="calls", style="dotted"];
@@ -13440,8 +13441,8 @@ digraph tracers {
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "unresolved:typescript:showInformationMessage" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "unresolved:typescript:showSaveDialog" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::convert" -> "unresolved:typescript:writeFile" [label="calls", style="dotted"];
+  "function:packages/extensions/vscode/src/extension.ts::ensureWasm" -> "external:typescript:node:fs.readFileSync" [label="calls", style="bold"];
   "function:packages/extensions/vscode/src/extension.ts::ensureWasm" -> "external:unresolved:@vectors/core.initSync" [label="calls", style="bold"];
-  "function:packages/extensions/vscode/src/extension.ts::ensureWasm" -> "unresolved:typescript:readFileSync" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::fileExists" -> "unresolved:typescript:stat" [label="calls", style="dotted"];
   "function:packages/extensions/vscode/src/extension.ts::pickImage" -> "external:typescript:lib::test" [label="calls", style="bold"];
   "function:packages/extensions/vscode/src/extension.ts::pickImage" -> "unresolved:typescript:showOpenDialog" [label="calls", style="dotted"];
@@ -17068,7 +17069,7 @@ digraph tracers {
   "module:packages/extensions/vscode/scripts/build.mjs" -> "constant:packages/extensions/vscode/scripts/build.mjs::shimImportMeta" [label="defines", style="solid"];
   "module:packages/extensions/vscode/scripts/build.mjs" -> "constant:packages/extensions/vscode/scripts/build.mjs::wasm" [label="defines", style="solid"];
   "module:packages/extensions/vscode/scripts/build.mjs" -> "method:packages/extensions/vscode/scripts/build.mjs::setup" [label="defines", style="solid"];
-  "module:packages/extensions/vscode/src/extension.ts" -> "external:typescript:lib::join" [label="calls", style="bold"];
+  "module:packages/extensions/vscode/src/extension.ts" -> "external:typescript:node:path.join" [label="calls", style="bold"];
   "module:packages/extensions/vscode/src/extension.ts" -> "constant:packages/extensions/vscode/src/extension.ts::IMAGE_RE" [label="defines", style="solid"];
   "module:packages/extensions/vscode/src/extension.ts" -> "constant:packages/extensions/vscode/src/extension.ts::activate.src" [label="defines", style="solid"];
   "module:packages/extensions/vscode/src/extension.ts" -> "constant:packages/extensions/vscode/src/extension.ts::convert.bytes" [label="defines", style="solid"];

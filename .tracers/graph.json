@@ -10031,6 +10031,24 @@
       "language": "typescript"
     },
     {
+      "id": "external:typescript:node:fs.readFileSync",
+      "kind": "external_symbol",
+      "name": "readFileSync",
+      "language": "typescript"
+    },
+    {
+      "id": "external:typescript:node:path.basename",
+      "kind": "external_symbol",
+      "name": "basename",
+      "language": "typescript"
+    },
+    {
+      "id": "external:typescript:node:path.join",
+      "kind": "external_symbol",
+      "name": "join",
+      "language": "typescript"
+    },
+    {
       "id": "external:typescript:process.cwd",
       "kind": "external_symbol",
       "name": "cwd",
@@ -46460,12 +46478,6 @@
       "language": "rust"
     },
     {
-      "id": "unresolved:rust:ensure_traceable",
-      "kind": "unknown",
-      "name": "ensure_traceable",
-      "language": "rust"
-    },
-    {
       "id": "unresolved:rust:eq_ignore_ascii_case",
       "kind": "unknown",
       "name": "eq_ignore_ascii_case",
@@ -46631,6 +46643,12 @@
       "id": "unresolved:rust:iter_mut",
       "kind": "unknown",
       "name": "iter_mut",
+      "language": "rust"
+    },
+    {
+      "id": "unresolved:rust:label",
+      "kind": "unknown",
+      "name": "label",
       "language": "rust"
     },
     {
@@ -47282,12 +47300,6 @@
       "language": "typescript"
     },
     {
-      "id": "unresolved:typescript:basename",
-      "kind": "unknown",
-      "name": "basename",
-      "language": "typescript"
-    },
-    {
       "id": "unresolved:typescript:cb",
       "kind": "unknown",
       "name": "cb",
@@ -47477,12 +47489,6 @@
       "id": "unresolved:typescript:readFile",
       "kind": "unknown",
       "name": "readFile",
-      "language": "typescript"
-    },
-    {
-      "id": "unresolved:typescript:readFileSync",
-      "kind": "unknown",
-      "name": "readFileSync",
       "language": "typescript"
     },
     {
@@ -133730,27 +133736,6 @@
     },
     {
       "source": "function:crates/vectors-cli/src/bin/vectors.rs::info",
-      "target": "module:crates/vectors-core/src/preprocess/mod.rs::label",
-      "kind": "calls",
-      "status": "resolved_internal",
-      "origin": "lexical",
-      "sites": [
-        {
-          "start": {
-            "line": 196,
-            "column": 15,
-            "byte": 5716
-          },
-          "end": {
-            "line": 196,
-            "column": 79,
-            "byte": 5780
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/vectors-cli/src/bin/vectors.rs::info",
       "target": "unresolved:rust:color_mode",
       "kind": "calls",
       "status": "unresolved",
@@ -133766,6 +133751,27 @@
             "line": 196,
             "column": 61,
             "byte": 5762
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/vectors-cli/src/bin/vectors.rs::info",
+      "target": "unresolved:rust:label",
+      "kind": "calls",
+      "status": "unresolved",
+      "origin": "syntax",
+      "sites": [
+        {
+          "start": {
+            "line": 196,
+            "column": 15,
+            "byte": 5716
+          },
+          "end": {
+            "line": 196,
+            "column": 79,
+            "byte": 5780
           }
         }
       ]
@@ -179729,6 +179735,27 @@
     },
     {
       "source": "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size",
+      "target": "function:crates/vectors-core/src/preprocess/label.rs::ensure_traceable",
+      "kind": "calls",
+      "status": "resolved_internal",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 167,
+            "column": 5,
+            "byte": 5153
+          },
+          "end": {
+            "line": 167,
+            "column": 42,
+            "byte": 5190
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size",
       "target": "method:crates/vectors-cli/src/debug.rs::DebugWriter.new",
       "kind": "calls",
       "status": "resolved_internal",
@@ -179786,27 +179813,6 @@
             "line": 158,
             "column": 70,
             "byte": 4825
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:crates/vectors-cli/tests/artifacts.rs::curve_raster_starts_at_the_right_size",
-      "target": "unresolved:rust:ensure_traceable",
-      "kind": "calls",
-      "status": "unresolved",
-      "origin": "syntax",
-      "sites": [
-        {
-          "start": {
-            "line": 167,
-            "column": 5,
-            "byte": 5153
-          },
-          "end": {
-            "line": 167,
-            "column": 42,
-            "byte": 5190
           }
         }
       ]
@@ -222419,6 +222425,27 @@
     },
     {
       "source": "function:packages/extensions/vscode/src/extension.ts::convert",
+      "target": "external:typescript:node:path.basename",
+      "kind": "calls",
+      "status": "resolved_external",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 62,
+            "column": 23,
+            "byte": 1742
+          },
+          "end": {
+            "line": 62,
+            "column": 51,
+            "byte": 1770
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:packages/extensions/vscode/src/extension.ts::convert",
       "target": "external:unresolved:@vectors/core.WasmTraceConfig",
       "kind": "calls",
       "status": "resolved_internal",
@@ -222518,27 +222545,6 @@
             "line": 49,
             "column": 33,
             "byte": 1357
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:packages/extensions/vscode/src/extension.ts::convert",
-      "target": "unresolved:typescript:basename",
-      "kind": "calls",
-      "status": "unresolved",
-      "origin": "syntax",
-      "sites": [
-        {
-          "start": {
-            "line": 62,
-            "column": 23,
-            "byte": 1742
-          },
-          "end": {
-            "line": 62,
-            "column": 51,
-            "byte": 1770
           }
         }
       ]
@@ -222692,6 +222698,27 @@
     },
     {
       "source": "function:packages/extensions/vscode/src/extension.ts::ensureWasm",
+      "target": "external:typescript:node:fs.readFileSync",
+      "kind": "calls",
+      "status": "resolved_external",
+      "origin": "lexical",
+      "sites": [
+        {
+          "start": {
+            "line": 12,
+            "column": 14,
+            "byte": 355
+          },
+          "end": {
+            "line": 12,
+            "column": 39,
+            "byte": 380
+          }
+        }
+      ]
+    },
+    {
+      "source": "function:packages/extensions/vscode/src/extension.ts::ensureWasm",
       "target": "external:unresolved:@vectors/core.initSync",
       "kind": "calls",
       "status": "resolved_internal",
@@ -222707,27 +222734,6 @@
             "line": 12,
             "column": 40,
             "byte": 381
-          }
-        }
-      ]
-    },
-    {
-      "source": "function:packages/extensions/vscode/src/extension.ts::ensureWasm",
-      "target": "unresolved:typescript:readFileSync",
-      "kind": "calls",
-      "status": "unresolved",
-      "origin": "syntax",
-      "sites": [
-        {
-          "start": {
-            "line": 12,
-            "column": 14,
-            "byte": 355
-          },
-          "end": {
-            "line": 12,
-            "column": 39,
-            "byte": 380
           }
         }
       ]
@@ -268932,7 +268938,7 @@
     },
     {
       "source": "module:packages/extensions/vscode/src/extension.ts",
-      "target": "external:typescript:lib::join",
+      "target": "external:typescript:node:path.join",
       "kind": "calls",
       "status": "resolved_external",
       "origin": "lexical",
@@ -279689,15 +279695,15 @@
   "statistics": {
     "files": 307,
     "packages": 4,
-    "nodes": 4335,
+    "nodes": 4336,
     "edges": 13599,
     "symbols": 2839,
-    "unresolvedEdges": 659,
+    "unresolvedEdges": 657,
     "diagnostics": 119,
     "byNodeKind": {
       "constant": 318,
       "enum": 9,
-      "external_symbol": 499,
+      "external_symbol": 502,
       "file": 307,
       "framework": 14,
       "function": 690,
@@ -279709,7 +279715,7 @@
       "repository": 1,
       "struct": 66,
       "type": 12,
-      "unknown": 265,
+      "unknown": 263,
       "variable": 1197
     },
     "byEdgeKind": {
@@ -279729,12 +279735,12 @@
       "python": 98,
       "rust": 3035,
       "tsx": 322,
-      "typescript": 451
+      "typescript": 452
     },
     "byStatus": {
-      "resolved_external": 2496,
+      "resolved_external": 2498,
       "resolved_internal": 10444,
-      "unresolved": 659
+      "unresolved": 657
     },
     "byFramework": {
       "anyhow": 1,
