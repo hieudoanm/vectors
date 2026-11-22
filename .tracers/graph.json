@@ -133,17 +133,38 @@
   ],
   "frameworks": [
     {
+      "name": "anyhow",
+      "displayName": "anyhow",
+      "family": "rust",
+      "version": null,
+      "confidence": "high"
+    },
+    {
       "name": "axum",
       "displayName": "Axum",
       "family": "rust",
       "version": null,
-      "confidence": "medium"
+      "confidence": "high"
     },
     {
       "name": "clap.rs",
       "displayName": "clap.rs",
       "family": "rust",
       "version": null,
+      "confidence": "high"
+    },
+    {
+      "name": "config-rs",
+      "displayName": "config-rs",
+      "family": "rust",
+      "version": null,
+      "confidence": "medium"
+    },
+    {
+      "name": "image",
+      "displayName": "image",
+      "family": "rust",
+      "version": "vectors",
       "confidence": "medium"
     },
     {
@@ -154,10 +175,59 @@
       "confidence": "high"
     },
     {
+      "name": "playwright",
+      "displayName": "Playwright",
+      "family": "ecmascript",
+      "version": "1.65.2",
+      "confidence": "medium"
+    },
+    {
       "name": "react",
       "displayName": "React",
       "family": "ecmascript",
       "version": "tailwindcss",
+      "confidence": "high"
+    },
+    {
+      "name": "serde",
+      "displayName": "Serde",
+      "family": "rust",
+      "version": null,
+      "confidence": "high"
+    },
+    {
+      "name": "tailwindcss",
+      "displayName": "Tailwind CSS",
+      "family": "ecmascript",
+      "version": "vectors",
+      "confidence": "medium"
+    },
+    {
+      "name": "thiserror",
+      "displayName": "thiserror",
+      "family": "rust",
+      "version": null,
+      "confidence": "high"
+    },
+    {
+      "name": "tokio",
+      "displayName": "Tokio",
+      "family": "rust",
+      "version": null,
+      "confidence": "medium"
+    },
+    {
+      "name": "turborepo",
+      "displayName": "Turborepo",
+      "family": "ecmascript",
+      "version": "commitlint",
+      "confidence": "medium"
+    },
+    {
+      "name": "vitest",
+      "displayName": "Vitest",
+      "family": "ecmascript",
+      "version": "vectors",
       "confidence": "high"
     }
   ],
@@ -11074,11 +11144,21 @@
       "language": "bash"
     },
     {
+      "id": "framework:anyhow",
+      "kind": "framework",
+      "name": "anyhow",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "anyhow"
+      }
+    },
+    {
       "id": "framework:axum",
       "kind": "framework",
       "name": "Axum",
       "metadata": {
-        "confidence": "medium",
+        "confidence": "high",
         "family": "rust",
         "framework": "axum"
       }
@@ -11088,9 +11168,29 @@
       "kind": "framework",
       "name": "clap.rs",
       "metadata": {
-        "confidence": "medium",
+        "confidence": "high",
         "family": "rust",
         "framework": "clap.rs"
+      }
+    },
+    {
+      "id": "framework:config-rs",
+      "kind": "framework",
+      "name": "config-rs",
+      "metadata": {
+        "confidence": "medium",
+        "family": "rust",
+        "framework": "config-rs"
+      }
+    },
+    {
+      "id": "framework:image:vectors",
+      "kind": "framework",
+      "name": "image",
+      "metadata": {
+        "confidence": "medium",
+        "family": "rust",
+        "framework": "image"
       }
     },
     {
@@ -11104,6 +11204,16 @@
       }
     },
     {
+      "id": "framework:playwright:1.65.2",
+      "kind": "framework",
+      "name": "Playwright",
+      "metadata": {
+        "confidence": "medium",
+        "family": "ecmascript",
+        "framework": "playwright"
+      }
+    },
+    {
       "id": "framework:react:tailwindcss",
       "kind": "framework",
       "name": "React",
@@ -11111,6 +11221,66 @@
         "confidence": "high",
         "family": "ecmascript",
         "framework": "react"
+      }
+    },
+    {
+      "id": "framework:serde",
+      "kind": "framework",
+      "name": "Serde",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "serde"
+      }
+    },
+    {
+      "id": "framework:tailwindcss:vectors",
+      "kind": "framework",
+      "name": "Tailwind CSS",
+      "metadata": {
+        "confidence": "medium",
+        "family": "ecmascript",
+        "framework": "tailwindcss"
+      }
+    },
+    {
+      "id": "framework:thiserror",
+      "kind": "framework",
+      "name": "thiserror",
+      "metadata": {
+        "confidence": "high",
+        "family": "rust",
+        "framework": "thiserror"
+      }
+    },
+    {
+      "id": "framework:tokio",
+      "kind": "framework",
+      "name": "Tokio",
+      "metadata": {
+        "confidence": "medium",
+        "family": "rust",
+        "framework": "tokio"
+      }
+    },
+    {
+      "id": "framework:turborepo:commitlint",
+      "kind": "framework",
+      "name": "Turborepo",
+      "metadata": {
+        "confidence": "medium",
+        "family": "ecmascript",
+        "framework": "turborepo"
+      }
+    },
+    {
+      "id": "framework:vitest:vectors",
+      "kind": "framework",
+      "name": "Vitest",
+      "metadata": {
+        "confidence": "high",
+        "family": "ecmascript",
+        "framework": "vitest"
       }
     },
     {
@@ -258986,6 +259156,13 @@
     },
     {
       "source": "repository:.",
+      "target": "framework:anyhow",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
       "target": "framework:axum",
       "kind": "uses_framework",
       "status": "resolved_internal",
@@ -259000,6 +259177,20 @@
     },
     {
       "source": "repository:.",
+      "target": "framework:config-rs",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:image:vectors",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
       "target": "framework:nextjs:tailwindcss",
       "kind": "uses_framework",
       "status": "resolved_internal",
@@ -259007,7 +259198,56 @@
     },
     {
       "source": "repository:.",
+      "target": "framework:playwright:1.65.2",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
       "target": "framework:react:tailwindcss",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:serde",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:tailwindcss:vectors",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:thiserror",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:tokio",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:turborepo:commitlint",
+      "kind": "uses_framework",
+      "status": "resolved_internal",
+      "origin": "syntax"
+    },
+    {
+      "source": "repository:.",
+      "target": "framework:vitest:vectors",
       "kind": "uses_framework",
       "status": "resolved_internal",
       "origin": "syntax"
@@ -280508,8 +280748,8 @@
   "statistics": {
     "files": 307,
     "packages": 4,
-    "nodes": 4562,
-    "edges": 12695,
+    "nodes": 4572,
+    "edges": 12705,
     "symbols": 2805,
     "unresolvedEdges": 3119,
     "diagnostics": 1042,
@@ -280518,7 +280758,7 @@
       "enum": 9,
       "external_symbol": 386,
       "file": 307,
-      "framework": 4,
+      "framework": 14,
       "function": 690,
       "interface": 22,
       "method": 181,
@@ -280538,7 +280778,7 @@
       "exports": 710,
       "implements": 16,
       "imports": 548,
-      "uses_framework": 4,
+      "uses_framework": 14,
       "uses_type": 827
     },
     "byLanguage": {
@@ -280552,14 +280792,24 @@
     },
     "byStatus": {
       "resolved_external": 1004,
-      "resolved_internal": 8572,
+      "resolved_internal": 8582,
       "unresolved": 3119
     },
     "byFramework": {
+      "anyhow": 1,
       "axum": 1,
       "clap.rs": 1,
+      "config-rs": 1,
+      "image": 1,
       "nextjs": 1,
-      "react": 1
+      "playwright": 1,
+      "react": 1,
+      "serde": 1,
+      "tailwindcss": 1,
+      "thiserror": 1,
+      "tokio": 1,
+      "turborepo": 1,
+      "vitest": 1
     }
   }
 }
