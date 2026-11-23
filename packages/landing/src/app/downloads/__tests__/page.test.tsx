@@ -31,6 +31,7 @@ describe('downloads page', () => {
   });
 
   it('links every release asset', () => {
+    expect(html).toContain(`${RELEASES}/extension-jetbrains-vectors.zip`);
     expect(html).toContain(`${RELEASES}/cli-vectors-aarch64-apple-darwin`);
     expect(html).toContain(`${RELEASES}/cli-vectors-x86_64-apple-darwin`);
     expect(html).toContain(
