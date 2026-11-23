@@ -138,7 +138,7 @@ jobs:
       - name: Upload extension artifacts
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: vectors-browser
+          name: extension-browser
           path: packages/extensions/browser/download/*
           if-no-files-found: error
           retention-days: 7
@@ -184,7 +184,7 @@ jobs:
       - name: Upload extension artifact
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: vectors-vscode
+          name: extension-vscode
           path: packages/extensions/vscode/build/*.vsix
           if-no-files-found: error
           retention-days: 7
@@ -213,7 +213,7 @@ jobs:
       - name: Upload extension artifact
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: vectors-zed
+          name: extension-zed
           path: packages/extensions/zed/download/*
           if-no-files-found: error
           retention-days: 7
@@ -233,12 +233,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.1
 
-      - name: Download all artifacts
+      - name: Download CLI artifacts
         uses: actions/download-artifact@v8.0.2
         with:
           path: dist
           pattern: cli-vectors-*
           merge-multiple: true
+
+      - name: Download extension artifacts
+        uses: actions/download-artifact@v8.0.2
+        with:
+          path: dist
+          pattern: extension-*
+          merge-multiple: true
+
+      - name: List artifacts to verify
+        run: ls -la dist/
 
       - name: Delete existing latest release
         env:
