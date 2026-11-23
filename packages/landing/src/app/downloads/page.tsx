@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 import type { IconType } from 'react-icons';
 import {
   FaApple,
+  FaBrain,
   FaChrome,
   FaCode,
   FaDownload,
@@ -137,6 +138,8 @@ const BROWSER_EXT: Cell[] = [
   },
 ];
 
+const MODELS: Cell[] = [];
+
 function Section({
   icon: Icon,
   title,
@@ -222,6 +225,12 @@ const Downloads: FC = () => (
         <Section icon={FaChrome} title="Browser Extensions">
           <CardGrid cells={BROWSER_EXT} cols="lg:grid-cols-3" />
         </Section>
+
+        {MODELS.length > 0 && (
+          <Section icon={FaBrain} title="Models">
+            <CardGrid cells={MODELS} cols="lg:grid-cols-3" />
+          </Section>
+        )}
 
         <div className="border-base-300 bg-base-200/50 rounded-2xl border p-6">
           <h2 className="text-base-content m-0 mb-2 flex items-center gap-2 text-lg leading-tight">
