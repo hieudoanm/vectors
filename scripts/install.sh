@@ -63,7 +63,8 @@ install_cli() {
   local asset
   case "$OS/$ARCH" in
     macos/arm64)  asset=cli-vectors-aarch64-apple-darwin ;;
-    macos/*)      die "No macOS x86_64 release asset; build from source with scripts/install-local.sh" ;;
+    macos/x86_64) asset=cli-vectors-x86_64-apple-darwin ;;
+    macos/*)      die "No macOS/$ARCH release asset; build from source with scripts/install-local.sh" ;;
     linux/x86_64) asset=cli-vectors-x86_64-unknown-linux-gnu ;;
     linux/*)      die "No linux/$ARCH release asset; build from source with scripts/install-local.sh" ;;
     windows/*)    asset=cli-vectors-x86_64-pc-windows-msvc.exe ;;
