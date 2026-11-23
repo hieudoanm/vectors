@@ -423,8 +423,8 @@ const Home: FC = () => (
       <CTA
         title="Your next logo deserves real paths."
         description="Trace it in the browser above, or take the binary for your pipeline."
-        primary={{ label: 'Convert an image', href: '#try' }}
-        secondary={{ label: 'Star on GitHub', href: GITHUB, external: true }}
+        primary={{ label: 'Download', href: '/downloads/' }}
+        secondary={{ label: 'View Docs', href: '/docs/' }}
       />
     </main>
   </>
