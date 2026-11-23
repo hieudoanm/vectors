@@ -1,20 +1,21 @@
 import type { Metadata } from 'next';
 import type { FC } from 'react';
-import { LuCpu, LuPuzzle } from 'react-icons/lu';
+import { PiCpu, PiPuzzlePiece } from 'react-icons/pi';
+
 import { Converter } from '@/components/Converter';
 import Features, { type Feature } from '@/components/molecules/Features';
 import Hero from '@/components/molecules/Hero';
 import CTA from '@/components/molecules/CTA';
 import {
-  LuFileImage,
-  LuGitBranch,
-  LuLayers,
-  LuPalette,
-  LuRepeat,
-  LuServer,
-  LuShieldCheck,
-  LuSpline,
-} from 'react-icons/lu';
+  PiFileImage,
+  PiGitBranch,
+  PiStack,
+  PiPalette,
+  PiRepeat,
+  PiDesktopTower,
+  PiShieldCheck,
+  PiBezierCurve,
+} from 'react-icons/pi';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -117,42 +118,42 @@ const FEATURES: Feature[] = [
   {
     title: 'Palette & binary modes',
     body: 'Median-cut colour quantization (default 8 colours) or a single luminance threshold for black-and-white output.',
-    icon: LuPalette,
+    icon: PiPalette,
   },
   {
     title: 'Real holes, not hacks',
     body: '8-connected segmentation walks each region’s boundary and emits outer contours plus holes with fill-rule="evenodd".',
-    icon: LuGitBranch,
+    icon: PiGitBranch,
   },
   {
     title: 'Bézier-fitted curves',
     body: 'Douglas–Peucker simplification followed by least-squares curve fitting — editable paths, not a bitmap in a trench coat.',
-    icon: LuSpline,
+    icon: PiBezierCurve,
   },
   {
     title: 'Deterministic output',
     body: 'No RNG, no hash-order dependence. Identical input produces byte-identical SVG, so baselines and diffs stay meaningful.',
-    icon: LuRepeat,
+    icon: PiRepeat,
   },
   {
     title: 'CLI, API, MCP & library',
     body: 'One pipeline, many surfaces: vectors trace, vectors serve, vectors mcp serve, or the Rust crate compiled to WebAssembly.',
-    icon: LuServer,
+    icon: PiDesktopTower,
   },
   {
     title: 'SVG → PNG too',
     body: 'The inverse direction renders SVG back to a sized PNG — exact grid or proportional — with resvg behind the raster feature.',
-    icon: LuFileImage,
+    icon: PiFileImage,
   },
   {
     title: 'Measured, not vibes',
     body: 'An optional eval harness rasterizes the emitted SVG and scores MAE, PSNR, SSIM and edge agreement against committed baselines.',
-    icon: LuLayers,
+    icon: PiStack,
   },
   {
     title: 'Offline & private',
     body: 'A static binary with no network calls. The web converter runs the same tracer in your browser — files never leave the machine.',
-    icon: LuShieldCheck,
+    icon: PiShieldCheck,
   },
 ];
 
@@ -273,7 +274,7 @@ const Home: FC = () => (
           <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-white p-6">
               <div className="bg-primary/10 text-primary mb-3 flex h-11 w-11 items-center justify-center rounded-lg">
-                <LuPuzzle className="h-6 w-6" />
+                <PiPuzzlePiece className="h-6 w-6" />
               </div>
               <h3 className="mb-2 text-lg font-semibold text-slate-900">
                 Debug artefacts
@@ -286,7 +287,7 @@ const Home: FC = () => (
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-6">
               <div className="bg-primary/10 text-primary mb-3 flex h-11 w-11 items-center justify-center rounded-lg">
-                <LuCpu className="h-6 w-6" />
+                <PiCpu className="h-6 w-6" />
               </div>
               <h3 className="mb-2 text-lg font-semibold text-slate-900">
                 Measured accuracy
