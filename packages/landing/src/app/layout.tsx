@@ -16,6 +16,7 @@ const NAV_LINKS = [
   { label: 'How it works', href: '#how' },
   { label: 'Install', href: '#install' },
   { label: 'Docs', href: '/docs/' },
+  { label: 'Downloads', href: '/downloads/' },
 ];
 
 const SITE_URL = 'https://hieudoanm.github.io/vectors';
