@@ -6,6 +6,7 @@ CRATES_DIR="$REPO_ROOT/crates"
 BROWSER_DIR="$REPO_ROOT/packages/extensions/browser"
 VSCODE_DIR="$REPO_ROOT/packages/extensions/vscode"
 ZED_DIR="$REPO_ROOT/packages/extensions/zed"
+JETBRAINS_DIR="$REPO_ROOT/packages/extensions/jetbrains"
 
 ts() { date '+%Y-%m-%dT%H:%M:%S%z'; }
 
@@ -16,16 +17,17 @@ die()   { error "$*"; exit 1; }
 
 usage() {
   cat <<'EOF'
-Usage: install-local.sh [--cli|--firefox|--chrome|--vscode|--zed] [DEST]
+Usage: install-local.sh [--cli|--firefox|--chrome|--vscode|--zed|--jetbrains] [DEST]
 
-  --cli       Build the vectors CLI from source and install it (default)
-  --firefox   Build the MV2 extension and install vectors-v2.xpi for Firefox
-  --chrome    Build the MV3 extension and unpack vectors-v3.zip for Chrome/Edge
-  --vscode    Build the VS Code extension and install vectors-vscode.vsix
-  --zed       Build the Zed extension and unpack extension-zed-vectors.tar.gz
+  --cli        Build the vectors CLI from source and install it (default)
+  --firefox    Build the MV2 extension and install vectors-v2.xpi for Firefox
+  --chrome     Build the MV3 extension and unpack vectors-v3.zip for Chrome/Edge
+  --vscode     Build the VS Code extension and install vectors-vscode.vsix
+  --zed        Build the Zed extension and unpack extension-zed-vectors.tar.gz
+  --jetbrains  Build the JetBrains plugin and copy vectors-jetbrains zip
 
 DEST is the install path for --cli, the download directory for --firefox,
---vscode and --zed, or the extension directory for --chrome.
+--vscode, --zed and --jetbrains, or the extension directory for --chrome.
 EOF
   exit "${1:-0}"
 }
@@ -40,6 +42,7 @@ for arg in "$@"; do
     --chrome)  MODE=chrome ;;
     --vscode)  MODE=vscode ;;
     --zed)     MODE=zed ;;
+    --jetbrains) MODE=jetbrains ;;
     -h|--help) usage 0 ;;
     --*)       die "Unknown flag: $arg" ;;
     *)         [ -z "$DEST" ] && DEST="$arg" || die "Unexpected argument: $arg" ;;
@@ -209,10 +212,36 @@ Next steps (Zed):
 EOF
 }
 
+install_jetbrains() {
+  command -v java >/dev/null 2>&1 || die "java not found; install JDK 21+"
+  log "Building JetBrains plugin (Gradle buildPlugin)"
+  (cd "$JETBRAINS_DIR" && ./gradlew buildPlugin --console=plain)
+  local zip
+  zip="$(ls -t "$JETBRAINS_DIR"/build/distributions/*.zip | head -1)"
+  [ -n "$zip" ] || die "Expected a plugin zip under $JETBRAINS_DIR/build/distributions"
+
+  local dir="$DEST"
+  [ -z "$dir" ] && dir="$HOME/Downloads"
+  mkdir -p "$dir"
+  cp "$zip" "$dir/extension-jetbrains-vectors.zip"
+  log "Copied $dir/extension-jetbrains-vectors.zip"
+  cat <<EOF
+
+Next steps (JetBrains IDEs):
+  1. Open Settings → Plugins → ⚙ → "Install Plugin from Disk…"
+  2. Pick: $dir/extension-jetbrains-vectors.zip
+  3. Restart the IDE if prompted, then set the vectors CLI path in
+     Settings → Tools → vectors if `vectors` is not on PATH.
+  Use: right-click a PNG/JPEG in the Project view → Vectors →
+  Convert Image to SVG.
+EOF
+}
+
 case "$MODE" in
-  cli)     install_cli ;;
-  firefox) install_firefox ;;
-  chrome)  install_chrome ;;
-  vscode)  install_vscode ;;
-  zed)     install_zed ;;
+  cli)        install_cli ;;
+  firefox)    install_firefox ;;
+  chrome)     install_chrome ;;
+  vscode)     install_vscode ;;
+  zed)        install_zed ;;
+  jetbrains)  install_jetbrains ;;
 esac

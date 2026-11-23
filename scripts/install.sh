@@ -12,16 +12,17 @@ die()   { error "$*"; exit 1; }
 
 usage() {
   cat <<'EOF'
-Usage: install.sh [--cli|--firefox|--chrome|--vscode|--zed] [DEST]
+Usage: install.sh [--cli|--firefox|--chrome|--vscode|--zed|--jetbrains] [DEST]
 
-  --cli       Install the vectors CLI binary (default)
-  --firefox   Download the MV2 extension (extension-browser-vectors-v2.xpi) for Firefox
-  --chrome    Download and unpack the MV3 extension (extension-browser-vectors-v3.zip) for Chrome/Edge
-  --vscode    Download the VS Code extension (extension-vscode-vectors.vsix) and install it
-  --zed       Download the Zed extension (extension-zed-vectors.tar.gz) and unpack it
+  --cli        Install the vectors CLI binary (default)
+  --firefox    Download the MV2 extension (extension-browser-vectors-v2.xpi) for Firefox
+  --chrome     Download and unpack the MV3 extension (extension-browser-vectors-v3.zip) for Chrome/Edge
+  --vscode     Download the VS Code extension (extension-vscode-vectors.vsix) and install it
+  --zed        Download the Zed extension (extension-zed-vectors.tar.gz) and unpack it
+  --jetbrains  Download the JetBrains plugin (extension-jetbrains-vectors.zip)
 
 DEST is the install path for --cli, the download directory for --firefox,
---vscode and --zed, or the extension directory for --chrome.
+--vscode, --zed and --jetbrains, or the extension directory for --chrome.
 EOF
   exit "${1:-0}"
 }
@@ -36,6 +37,7 @@ for arg in "$@"; do
     --chrome)  MODE=chrome ;;
     --vscode)  MODE=vscode ;;
     --zed)     MODE=zed ;;
+    --jetbrains) MODE=jetbrains ;;
     -h|--help) usage 0 ;;
     --*)       die "Unknown flag: $arg" ;;
     *)         [ -z "$DEST" ] && DEST="$arg" || die "Unexpected argument: $arg" ;;
@@ -201,10 +203,30 @@ Next steps (Zed):
 EOF
 }
 
+# --- JetBrains (.zip plugin) ------------------------------------------------
+install_jetbrains() {
+  local dir="$DEST"
+  [ -z "$dir" ] && dir="$HOME/Downloads"
+  mkdir -p "$dir"
+  local zip="$dir/extension-jetbrains-vectors.zip"
+  download "$BASE_URL/extension-jetbrains-vectors.zip" "$zip"
+  cat <<EOF
+
+Next steps (JetBrains IDEs):
+  1. Open Settings → Plugins → ⚙ → "Install Plugin from Disk…"
+  2. Pick: $zip
+  3. Restart the IDE if prompted, then set the vectors CLI path in
+     Settings → Tools → vectors if `vectors` is not on PATH.
+  Use: right-click a PNG/JPEG in the Project view → Vectors →
+  Convert Image to SVG.
+EOF
+}
+
 case "$MODE" in
-  cli)     install_cli ;;
-  firefox) install_firefox ;;
-  chrome)  install_chrome ;;
-  vscode)  install_vscode ;;
-  zed)     install_zed ;;
+  cli)        install_cli ;;
+  firefox)    install_firefox ;;
+  chrome)     install_chrome ;;
+  vscode)     install_vscode ;;
+  zed)        install_zed ;;
+  jetbrains)  install_jetbrains ;;
 esac
