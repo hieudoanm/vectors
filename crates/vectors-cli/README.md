@@ -51,7 +51,7 @@ The script logs every step with a timestamp and a log level:
 [2026-11-06T00:57:46+0000] [INFO ] Detected OS: macos
 [2026-11-06T00:57:46+0000] [INFO ] Using user-specified destination: /usr/local/bin/vectors
 [2026-11-06T00:57:46+0000] [INFO ] Preparing destination directory: /usr/local/bin
-[2026-11-06T00:57:46+0000] [INFO ] Downloading https://github.com/hieudoanm/vectors/releases/download/latest/vectors
+[2026-11-06T00:57:46+0000] [INFO ] Downloading https://github.com/hieudoanm/vectors/releases/download/latest/cli-vectors-aarch64-apple-darwin
 [2026-11-06T00:57:46+0000] [INFO ] Downloaded 666758 bytes
 [2026-11-06T00:57:46+0000] [INFO ] Installing to /usr/local/bin/vectors
 [2026-11-06T00:57:46+0000] [INFO ] Installed vectors to /usr/local/bin/vectors
@@ -119,7 +119,7 @@ no RNG and no hash-order dependence.
 
 ## Accuracy is measured, not asserted
 
-A claim about quality comes from rasterizing the *emitted SVG* with an
+A claim about quality comes from rasterizing the _emitted SVG_ with an
 independent renderer (`resvg`) and scoring it against the source. That harness
 lives behind a feature flag so the tracer binary never links a full SVG
 rasterizer:
