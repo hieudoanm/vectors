@@ -51,6 +51,12 @@ const EXTENSIONS = [
     href: `${RELEASE_DL}/extension-zed-vectors.tar.gz`,
     label: 'Download .tar.gz',
   },
+  {
+    title: 'JetBrains',
+    body: 'Right-click an image in the Project view → Convert Image to SVG.',
+    href: `${RELEASE_DL}/extension-jetbrains-vectors.zip`,
+    label: 'Download .zip',
+  },
 ];
 
 const PIPELINE = [
@@ -397,9 +403,9 @@ const Home: FC = () => (
           </div>
           <p className="mt-8 text-center text-sm text-slate-600">
             The install script also takes <code>--firefox</code>,{' '}
-            <code>--chrome</code>, <code>--vscode</code> and <code>--zed</code>{' '}
-            to fetch the extensions above. The CLI is also available as an HTTP
-            API (<code>vectors serve</code>
+            <code>--chrome</code>, <code>--vscode</code>, <code>--zed</code> and{' '}
+            <code>--jetbrains</code> to fetch the extensions above. The CLI is
+            also available as an HTTP API (<code>vectors serve</code>
             ), an MCP server (<code>vectors mcp serve</code>), and a Rust
             library —{' '}
             <a

@@ -1,0 +1,39 @@
+<idea-plugin>
+    <id>io.github.hieudoanm.vectors.idea</id>
+    <name>vectors</name>
+    <vendor>hieudoanm</vendor>
+    <description><![CDATA[
+        Convert PNG/JPEG images to SVG with the vectors tracer — fully offline.
+
+        Right-click an image in the Project tool window or an image editor
+        tab → Convert Image to SVG. The SVG is written next to the source
+        image (logo.png → logo.svg).
+
+        Requires the `vectors` CLI on PATH (configurable in
+        Settings → Tools → vectors).
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService
+            serviceImplementation="com.vectors.idea.VectorsSettings"/>
+        <applicationConfigurable
+            parentId="tools"
+            instance="com.vectors.idea.VectorsSettingsConfigurable"
+            id="com.vectors.idea.settings"
+            displayName="vectors"/>
+    </extensions>
+
+    <actions>
+        <group id="Vectors" text="Vectors" popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="Vectors.ConvertImageToSvg"
+                    class="com.vectors.idea.actions.ConvertImageToSvgAction"
+                    text="Convert Image to SVG"
+                    description="Trace a PNG/JPEG to SVG with the vectors CLI"/>
+        </group>
+    </actions>
+</idea-plugin>

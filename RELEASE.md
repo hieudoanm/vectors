@@ -21,8 +21,8 @@ Or install everything at once:
 curl -fsSL https://raw.githubusercontent.com/hieudoanm/vectors/master/scripts/install.sh | bash
 ```
 
-`install.sh` also takes `--firefox`, `--chrome`, `--vscode` and `--zed` to
-fetch the extension packages below.
+`install.sh` also takes `--firefox`, `--chrome`, `--vscode`, `--zed` and
+`--jetbrains` to fetch the extension packages below.
 
 ### Browser extension
 
@@ -52,6 +52,16 @@ Right-click a PNG/JPEG in the Explorer → **Convert Image to SVG**.
 In the assistant panel: `/vectors <image.png|jpg|jpeg>` converts a
 worktree-relative image to SVG next to it. The extension uses the `vectors`
 CLI on `PATH`, or downloads the matching release binary automatically.
+
+### JetBrains plugin
+
+| Asset                                                                                                                            | Install                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [extension-jetbrains-vectors.zip](https://github.com/hieudoanm/vectors/releases/download/latest/extension-jetbrains-vectors.zip) | Settings → Plugins → ⚙ → Install Plugin from Disk, or `install.sh --jetbrains` |
+
+Right-click a PNG/JPEG in the Project view or an image editor tab →
+**Vectors → Convert Image to SVG**. Requires the `vectors` CLI on `PATH`
+(configurable in Settings → Tools → vectors).
 
 ### Quick start
 
