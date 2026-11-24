@@ -21,3 +21,15 @@ calls, and byte-identical output for identical input.
 | MCP server | `vectors mcp serve` (stdio JSON-RPC)          |
 | Library    | Rust crates, compiled to WASM for the web app |
 | Web app    | In-browser converter on the landing page      |
+
+## Installation guides
+
+- [CLI on macOS (Apple Silicon)](guides/how-to-install-cli-macos-silicon.md)
+- [CLI on macOS (Intel)](guides/how-to-install-cli-macos-intel.md)
+- [CLI on Linux](guides/how-to-install-cli-linux.md)
+- [CLI on Windows](guides/how-to-install-cli-windows.md)
+- [VS Code extension](guides/how-to-install-vscode.md)
+- [Zed extension](guides/how-to-install-zed.md)
+- [JetBrains plugin](guides/how-to-install-jetbrains.md)
+- [Browser extension (Chromium)](guides/how-to-install-browser-chromium.md)
+- [Browser extension (Firefox)](guides/how-to-install-browser-gecko.md)
