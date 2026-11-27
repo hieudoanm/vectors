@@ -5,6 +5,8 @@ import Footer from '@/components/molecules/Footer';
 import Navbar from '@/components/molecules/Navbar';
 import './globals.css';
 
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('vectors-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'vectors-dark':'vectors';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`;
+
 const inter = Inter({ subsets: ['latin'] });
 
 const GITHUB = 'https://github.com/hieudoanm/vectors';
@@ -81,8 +83,10 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
     <html
       lang="en"
       data-theme="vectors"
+      suppressHydrationWarning
       className={`h-full scroll-smooth antialiased motion-reduce:scroll-auto ${inter.className}`}>
       <body className="flex min-h-full flex-col">
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
