@@ -91,7 +91,7 @@
     "@types/vscode": "1.146.0",
     "@vscode/vsce": "4.1.1",
     "esbuild": "0.28.2",
-    "eslint": "10.15.0",
+    "eslint": "10.16.0",
     "globals": "17.14.0",
     "prettier": "3.10.1",
     "rimraf": "6.1.4",
